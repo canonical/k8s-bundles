@@ -1,0 +1,19 @@
+applications:
+  easyrsa:
+    charm: easyrsa
+    channel: stable
+    num_units: 1
+    constraints: cpu-cores=1 mem=4G root-disk=16G
+  etcd:
+    charm: etcd
+    channel: stable
+    num_units: 3
+    constraints: cpu-cores=2 mem=8G root-disk=64G
+  k8s:
+    options:
+      datastore: etcd
+relations:
+- - easyrsa:client
+  - etcd:certificates
+- - k8s:etcd
+  - etcd:db
