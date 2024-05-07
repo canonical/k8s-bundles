@@ -4,9 +4,6 @@
 name: Build Bundle
 
 on:
-  pull_request:
-    branches:
-    - KU-689/publish-bundle
   push:
 
 jobs:
@@ -24,9 +21,10 @@ jobs:
           echo "BUNDLE_FILE=$(ls ./*.zip)" >> $GITHUB_ENV
       
       - name: Upload bundle to edge
-        uses: canonical/charming-actions/upload-bundle@1.0.0
+        uses: canonical/charming-actions/upload-charm@2.5.0-rc
         with:
-          bundle-path: main
+          charm-path: main
+          built-charm-path: ${{ env.BUNDLE_FILE }}
           channel: latest/edge
           credentials: "${{ secrets.CHARMCRAFT_AUTH }}"
           github-token: "${{ secrets.GITHUB_TOKEN }}"
