@@ -1,0 +1,27 @@
+# Copyright 2024 Canonical Ltd.
+# See LICENSE file for licensing details.
+# This file configures Charmcraft.
+# See https://juju.is/docs/sdk/charmcraft-config for guidance.
+
+name: canonical-k8s
+title: Canonical Kubernetes
+summary: A set of machine charm for a deploying Canonical Kubernetes
+description: |
+  Includes 
+  * 3 K8s Control-plane units
+  * 3 K8s Workers
+links:
+  contact: https://launchpad.net/~containers
+  documentation: https://discourse.charmhub.io/t/canonical-k8s-bundle/14133
+  issues:
+  - https://github.com/canonical/k8s-bundles/issues
+  source:
+    - https://github.com/canonical/k8s-bundles
+
+
+type: bundle
+parts:
+  bundle:
+    source: .
+    plugin: bundle
+
