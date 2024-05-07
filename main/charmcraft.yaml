@@ -16,7 +16,7 @@ links:
   issues:
   - https://github.com/canonical/k8s-bundles/issues
   source:
-    - https://github.com/canonical/k8s-bundles
+  - https://github.com/canonical/k8s-bundles
 
 
 type: bundle
