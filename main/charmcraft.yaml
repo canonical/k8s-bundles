@@ -5,7 +5,7 @@
 
 name: canonical-kubernetes
 title: Canonical Kubernetes
-summary: A set of machine charm for a deploying Canonical Kubernetes
+summary: A set of machine charms for deploying Canonical Kubernetes
 description: |
   Includes 
   * 3 K8s Control-plane units
