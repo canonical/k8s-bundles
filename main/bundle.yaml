@@ -1,7 +1,7 @@
 # Copyright 2024 Canonical Ltd.
 # See LICENSE file for licensing details.
 
-name: canonical-k8s
+name: canonical-kubernetes
 applications:
   k8s:
     charm: k8s
