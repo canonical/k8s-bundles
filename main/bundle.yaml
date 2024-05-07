@@ -1,3 +1,14 @@
+# Copyright 2024 Canonical Ltd.
+# See LICENSE file for licensing details.
+
+name: canonical-kubernetes
+docs: https://discourse.charmhub.io/t/canonical-kubernetes-bundle/14133
+issues:
+- https://github.com/canonical/k8s-bundles/issues
+source:
+- https://github.com/canonical/k8s-bundles
+
+series: jammy
 applications:
   k8s:
     charm: k8s

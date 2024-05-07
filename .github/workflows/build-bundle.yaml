@@ -1,0 +1,33 @@
+# Copyright 2024 Canonical Ltd.
+# See LICENSE file for licensing details.
+
+name: Build Bundle
+
+on:
+  push:
+    branches:
+    - main
+    - release-*
+  
+jobs:
+  build-charms:
+    name: Build and push bundles
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Pack Bundle
+        run: |
+          sudo snap install charmcraft --classic --channel latest/stable
+          pushd main
+          charmcraft pack -v 
+          echo "BUNDLE_FILE=$(ls ./*.zip)" >> $GITHUB_ENV
+      
+      - name: Upload bundle to edge
+        uses: canonical/charming-actions/upload-charm@2.5.0-rc
+        with:
+          charm-path: main
+          built-charm-path: ${{ env.BUNDLE_FILE }}
+          channel: latest/edge
+          credentials: "${{ secrets.CHARMCRAFT_AUTH }}"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
