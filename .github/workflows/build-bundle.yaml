@@ -20,7 +20,7 @@ jobs:
       - name: Find Track
         id: find-track
         env:
-          BRANCH: ${{ github.event.ref }}
+          BRANCH: ${{ github.event.ref || github.event.pull_request.base.ref }}
         run: |
           BRANCH=${BRANCH#refs/heads/}  # strip off refs/heads/ if it exists
           if [[ "${BRANCH}" == "main" ]]; then
@@ -42,6 +42,8 @@ jobs:
     env:
       channel: ${{ needs.bundle-track.outputs.track }}/${{matrix.risk}}'
     steps:
+      - uses: actions/checkout@v4
+
       - name: Determine branch supported channels
         id: branch-supports-risk
         run: grep ${{ matrix.risk }} .supported-risks
