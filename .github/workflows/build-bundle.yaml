@@ -40,35 +40,18 @@ jobs:
       matrix:
         risk: [edge, beta, candidate, stable]
     env:
+      track: ${{ needs.bundle-track.outputs.track }}
       channel: ${{ needs.bundle-track.outputs.track }}/${{matrix.risk}}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Determine branch supported channels
-        id: branch-supports-risk
-        continue-on-error: true
-        run: grep ${{ matrix.risk }} main/.supported-charm-risks
-          
       - name: Pack Bundle
         id: packed
-        if: steps.branch-supports-risk.outcome == 'success'
+        continue-on-error: true
         run: |
           sudo snap install charmcraft --classic --channel latest/stable
-          pushd main
-
-          echo "::group::Alter charm channels"
-          yq -e -i '.applications.k8s.channel = "${{env.channel}}"' bundle.yaml
-          yq -e -i '.applications.k8s-worker.channel = "${{env.channel}}"' bundle.yaml
-          echo ""::endgroup::""
-
-          echo "::group::Charm channels before packing"
-          yq '.applications | with_entries(select(.key | test("k8s*"))) | .[].channel' bundle.yaml
-          echo ""::endgroup::""
-
-          echo "::group::Pack Bundle"
-          charmcraft pack -v
-          echo ""::endgroup::""
-          echo "BUNDLE_FILE=$(ls ./*.zip)" >> $GITHUB_ENV
+          ./pack.sh main ${{env.track}} ${{matrix.risk}}
+          echo "BUNDLE_FILE=$(ls .main/*.zip)" >> $GITHUB_ENV
       
       - name: Upload bundle to ${{env.channel}}
         if: github.event_name == 'push' && steps.packed.outcome == 'success'
