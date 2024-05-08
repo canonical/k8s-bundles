@@ -8,40 +8,67 @@ on:
     branches:
     - main
     - release-*
+  pull_request:
   
 jobs:
-  build-charms:
+  bundle-track:
+    name: Find track from branch
+    runs-on: ubuntu-latest
+    outputs:
+      track: ${{steps.find-track.outputs.TRACK}}
+    steps:
+      - name: Find Track
+        id: find-track
+        env:
+          BRANCH: ${{ github.event.ref }}
+        run: |
+          BRANCH=${BRANCH#refs/heads/}  # strip off refs/heads/ if it exists
+          if [[ "${BRANCH}" == "main" ]]; then
+            echo "TRACK=latest" >> "$GITHUB_OUTPUT"
+          elif [[ "${BRANCH}" =~ ^release-[0-9]+\.[0-9]+$ ]]; then
+            echo "TRACK=${BRANCH:8}" >> "$GITHUB_OUTPUT"
+          else
+            echo "::error Failed to determine track from branch ${BRANCH}"
+            exit 1
+          fi
+
+  build-bundles:
     name: Build and push bundles
     runs-on: ubuntu-latest
+    needs: bundle-track
+    strategy:
+      matrix:
+        risk: [edge, beta, candidate, stable]
+    env:
+      channel: ${{ needs.bundle-track.outputs.track }}/${{matrix.risk}}'
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Determine Channel
-        env:
-            BRANCH: ${{ github.event.ref }}
-        run: |
-            BRANCH=${BRANCH#refs/heads/}  # strip off refs/heads/ if it exists
-            if [[ "${BRANCH}" == "main" ]]; then
-              echo "CHANNEL=latest/edge" >> "$GITHUB_ENV"
-            elif [[ "${BRANCH}" =~ ^release-[0-9]+\.[0-9]+$ ]]; then
-              echo "CHANNEL=${BRANCH:8}/edge" >> "$GITHUB_ENV"
-            else
-              echo "::error Failed to determine track/risk from branch ${BRANCH}"
-              exit 1
-            fi
-
+      - name: Determine branch supported channels
+        id: branch-supports-risk
+        run: grep ${{ matrix.risk }} .supported-risks
+          
       - name: Pack Bundle
+        id: packed
+        if: ${{ steps.branch-supports-risk.outcome == 'success' }}
         run: |
           sudo snap install charmcraft --classic --channel latest/stable
           pushd main
-          charmcraft pack -v 
+          yq -e -i '.applications.k8s.channel = "${{env.channel}}"' bundle.yaml
+          yq -e -i '.applications.k8s-worker.channel = "${{env.channel}}"' bundle.yaml
+          yq '.applications | with_entries(select(.key | test("k8s*"))) | .[].channel' bundle.yaml
+          charmcraft pack -v
           echo "BUNDLE_FILE=$(ls ./*.zip)" >> $GITHUB_ENV
       
       - name: Upload bundle to edge
+        if: ${{ github.event_name == 'push' && steps.packed.outcome == 'success'}}
         uses: canonical/charming-actions/upload-charm@2.5.0-rc
         with:
           charm-path: main
           built-charm-path: ${{ env.BUNDLE_FILE }}
-          channel: ${{ env.CHANNEL }}
+          channel: ${{env.channel}}
           credentials: "${{ secrets.CHARMCRAFT_AUTH }}"
           github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Upload bundle to edge
+        if: ${{ github.event_name != 'push' && steps.packed.outcome == 'success'}}
+        run: |
+            echo "Would upload ${{ env.BUNDLE_FILE }} to ${{ env.channel }}"
