@@ -47,7 +47,7 @@ jobs:
       - name: Determine branch supported channels
         id: branch-supports-risk
         continue-on-error: true
-        run: grep ${{ matrix.risk }} .supported-risks
+        run: grep ${{ matrix.risk }} main/.supported-charm-risks
           
       - name: Pack Bundle
         id: packed
