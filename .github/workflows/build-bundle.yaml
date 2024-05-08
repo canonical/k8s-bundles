@@ -63,7 +63,7 @@ jobs:
           credentials: "${{ secrets.CHARMCRAFT_AUTH }}"
           github-token: "${{ secrets.GITHUB_TOKEN }}"
 
-      - name: None Push Event Report
+      - name: Push Event Report
         if: github.event_name != 'push' && steps.packed.outcome == 'success'
         run: |
-            echo "Would upload ${{ env.BUNDLE_FILE }} to ${{ env.channel }}"
+            echo "Don't upload ${{ env.BUNDLE_FILE }} to ${{ env.channel }} on push event"
