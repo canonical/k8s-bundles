@@ -46,11 +46,12 @@ jobs:
 
       - name: Determine branch supported channels
         id: branch-supports-risk
+        continue-on-error: true
         run: grep ${{ matrix.risk }} .supported-risks
           
       - name: Pack Bundle
         id: packed
-        if: ${{ steps.branch-supports-risk.outcome == 'success' }}
+        if: steps.branch-supports-risk.outcome == 'success'
         run: |
           sudo snap install charmcraft --classic --channel latest/stable
           pushd main
@@ -60,8 +61,8 @@ jobs:
           charmcraft pack -v
           echo "BUNDLE_FILE=$(ls ./*.zip)" >> $GITHUB_ENV
       
-      - name: Upload bundle to edge
-        if: ${{ github.event_name == 'push' && steps.packed.outcome == 'success'}}
+      - name: Upload bundle to ${{env.channel}}
+        if: github.event_name == 'push' && steps.packed.outcome == 'success'
         uses: canonical/charming-actions/upload-charm@2.5.0-rc
         with:
           charm-path: main
@@ -70,7 +71,7 @@ jobs:
           credentials: "${{ secrets.CHARMCRAFT_AUTH }}"
           github-token: "${{ secrets.GITHUB_TOKEN }}"
 
-      - name: Upload bundle to edge
-        if: ${{ github.event_name != 'push' && steps.packed.outcome == 'success'}}
+      - name: None Push Event Report
+        if: github.event_name != 'push' && steps.packed.outcome == 'success'
         run: |
             echo "Would upload ${{ env.BUNDLE_FILE }} to ${{ env.channel }}"
