@@ -15,7 +15,7 @@ applications:
     channel: latest/edge
     num_units: 3
     constraints: cpu-cores=2 mem=8G root-disk=32G
-    config:
+    options:
       register-with-taints: |-
         node-role.kubernetes.io/control-plane:NoSchedule
   k8s-worker:

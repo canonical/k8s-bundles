@@ -51,7 +51,7 @@ jobs:
         run: |
           sudo snap install charmcraft --classic --channel latest/stable
           ./pack.sh main ${{env.track}} ${{matrix.risk}}
-          echo "BUNDLE_FILE=$(ls .main/*.zip)" >> $GITHUB_ENV
+          echo "BUNDLE_FILE=$(ls ./main/*.zip)" >> $GITHUB_ENV
       
       - name: Upload bundle to ${{env.channel}}
         if: github.event_name == 'push' && steps.packed.outcome == 'success'
