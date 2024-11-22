@@ -12,7 +12,10 @@ channel="${track}/${risk}"
 pushd ${bundle} > /dev/null
 trap popd EXIT
 
-grep ${risk} .supported-charm-risks
+if ! grep ${risk} .supported-charm-risks ; then
+    echo "Invalid risk: ${risk}"
+    exit 1
+fi
 
 echo "::group::Alter charm channels"
 yq -e -i '.applications.k8s.channel = "'${channel}'"' bundle.yaml
@@ -21,6 +24,6 @@ yq '.applications | with_entries(select(.key | test("k8s*"))) | .[].channel' bun
 echo ""::endgroup::""
 
 echo "::group::Pack Bundle"
-charmcraft pack -v
+charmcraft pack --verbosity=trace
 echo ""::endgroup::""
 

@@ -1,2 +1,6 @@
 main/*.zip
 main/build
+main/parts
+main/prime
+main/stage
+main/.charmcraft_output_packages.txt
