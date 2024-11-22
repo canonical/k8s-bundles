@@ -12,7 +12,10 @@ channel="${track}/${risk}"
 pushd ${bundle} > /dev/null
 trap popd EXIT
 
-grep ${risk} .supported-charm-risks
+if ! grep ${risk} .supported-charm-risks ; then
+    echo "Invalid risk: ${risk}"
+    exit 1
+fi
 
 echo "::group::Alter charm channels"
 yq -e -i '.applications.k8s.channel = "'${channel}'"' bundle.yaml

@@ -4,10 +4,9 @@
 name: canonical-kubernetes
 docs: https://discourse.charmhub.io/t/canonical-kubernetes-bundle/14133
 issues:
-- https://github.com/canonical/k8s-bundles/issues
+  - https://github.com/canonical/k8s-bundles/issues
 source:
-- https://github.com/canonical/k8s-bundles
-
+  - https://github.com/canonical/k8s-bundles
 series: noble
 applications:
   k8s:
@@ -24,6 +23,6 @@ applications:
     num_units: 3
     constraints: cpu-cores=2 mem=8G root-disk=32G
 relations:
-- [k8s:k8s-cluster,       k8s-worker:cluster]
-- [k8s:containerd,        k8s-worker:containerd]
-- [k8s:cos-worker-tokens, k8s-worker:cos-tokens]
+  - ['k8s:k8s-cluster', 'k8s-worker:cluster']
+  - ['k8s:containerd', 'k8s-worker:containerd']
+  - ['k8s:cos-worker-tokens', 'k8s-worker:cos-tokens']
