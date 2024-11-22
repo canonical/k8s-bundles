@@ -3,10 +3,13 @@
 
 name: canonical-kubernetes
 docs: https://discourse.charmhub.io/t/canonical-kubernetes-bundle/14133
-issues:
-  - https://github.com/canonical/k8s-bundles/issues
-source:
-  - https://github.com/canonical/k8s-bundles
+links:
+  contact: https://launchpad.net/~containers
+  documentation: https://discourse.charmhub.io/t/canonical-kubernetes-bundle/14133
+  issues:
+    - https://github.com/canonical/k8s-bundles/issues
+  source:
+    - https://github.com/canonical/k8s-bundles
 series: noble
 applications:
   k8s:

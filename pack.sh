@@ -24,6 +24,6 @@ yq '.applications | with_entries(select(.key | test("k8s*"))) | .[].channel' bun
 echo ""::endgroup::""
 
 echo "::group::Pack Bundle"
-charmcraft pack -v
+charmcraft pack --verbosity=trace
 echo ""::endgroup::""
 
