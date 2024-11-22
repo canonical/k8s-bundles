@@ -57,7 +57,7 @@ jobs:
         if: github.event_name == 'push' && steps.packed.outcome == 'success'
         uses: canonical/charming-actions/upload-bundle@2.6.3
         with:
-          bundle-path: ${{ env.BUNDLE_FILE }}
+          bundle-path: ./main
           channel: ${{env.channel}}
           credentials: "${{ secrets.CHARMCRAFT_AUTH }}"
           github-token: "${{ secrets.GITHUB_TOKEN }}"
