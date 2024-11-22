@@ -8,7 +8,7 @@ issues:
 source:
 - https://github.com/canonical/k8s-bundles
 
-series: jammy
+series: noble
 applications:
   k8s:
     charm: k8s
@@ -16,7 +16,7 @@ applications:
     num_units: 3
     constraints: cpu-cores=2 mem=8G root-disk=32G
     options:
-      register-with-taints: |-
+      bootstrap-node-taints: |-
         node-role.kubernetes.io/control-plane:NoSchedule
   k8s-worker:
     charm: k8s-worker
@@ -24,7 +24,6 @@ applications:
     num_units: 3
     constraints: cpu-cores=2 mem=8G root-disk=32G
 relations:
-- - k8s:k8s-cluster
-  - k8s-worker:cluster
-- - k8s:cos-worker-tokens
-  - k8s-worker:cos-tokens
+- [k8s:k8s-cluster,       k8s-worker:cluster]
+- [k8s:containerd,        k8s-worker:containerd]
+- [k8s:cos-worker-tokens, k8s-worker:cos-tokens]
