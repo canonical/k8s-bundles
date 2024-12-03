@@ -4,7 +4,7 @@
 output "config" {
   value = {
     app_name    = lookup(local.yaml_data, "app_name", null)
-    channel     = lookup(local.yaml_data, "channel". null)
+    channel     = lookup(local.yaml_data, "channel", null)
     config      = lookup(local.yaml_data, "config", null)
     constraints = lookup(local.yaml_data, "constraints", null)
     resources   = lookup(local.yaml_data, "resoruces", null)
