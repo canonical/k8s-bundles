@@ -6,3 +6,7 @@ variable "manifest_yaml" {
   type        = string
 }
 
+variable "model" {
+  description = "Name of the Juju model to deploy to."
+  type        = string
+}
