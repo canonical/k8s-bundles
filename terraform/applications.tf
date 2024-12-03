@@ -13,7 +13,7 @@ module "k8s" {
                   {"bootstrap-node-taints": "node-role.kubernetes.io/control-plane:NoSchedule"}
                 )
   constraints = module.k8s_config.outputs.config.constraints 
-  model_name  = var.model
+  model  = var.model
   resources   = module.k8s_config.outputs.config.resources
   revision    = module.k8s_config.outputs.config.revision
   series      = module.k8s_config.outputs.config.series
@@ -26,7 +26,7 @@ module "k8s_worker" {
   channel     = module.k8s_worker_config.outputs.config.channel 
   config      = module.k8s_worker_config.outputs.config.config
   constraints = module.k8s_worker_config.outputs.config.constraints 
-  model_name  = var.model
+  model  = var.model
   resources   = module.k8s_worker_config.outputs.config.resources
   revision    = module.k8s_worker_config.outputs.config.revision
   series      = module.k8s_worker_config.outputs.config.series
