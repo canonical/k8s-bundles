@@ -16,7 +16,7 @@ module "k8s" {
   model  = var.model
   resources   = module.k8s_config.config.resources
   revision    = module.k8s_config.config.revision
-  series      = module.k8s_config.config.series
+  base        = module.k8s_config.config.base
   units       = module.k8s_config.config.units
 }
 
@@ -29,6 +29,6 @@ module "k8s_worker" {
   model  = var.model
   resources   = module.k8s_worker_config.config.resources
   revision    = module.k8s_worker_config.config.revision
-  series      = module.k8s_worker_config.config.series
+  base        = module.k8s_worker_config.config.base
   units       = module.k8s_worker_config.config.units
 }
