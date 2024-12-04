@@ -9,7 +9,7 @@ output "config" {
     constraints = lookup(local.yaml_data, "constraints", null)
     resources   = lookup(local.yaml_data, "resoruces", null)
     revision    = lookup(local.yaml_data, "revision", null)
-    series      = lookup(local.yaml_data, "series", null)
+    base        = lookup(local.yaml_data, "base", null)
     units       = lookup(local.yaml_data, "units", null)
   }
 }
