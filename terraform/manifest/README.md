@@ -1,9 +1,9 @@
 # Terraform Manifest Module
 
-This module reads a yaml config file and exports the values into terraform variables that 
+This module reads a yaml configuration file and exports the values into terraform variables that 
 can be passed down into other modules. It is specifically tailored for working with 
 modules for charms defined with the 
-[juju terrafom provider](https://registry.terraform.io/providers/juju/juju/latest/docs). It
+[juju terraform provider](https://registry.terraform.io/providers/juju/juju/latest/docs). It
 simplifies having to pass every individual charm input as a variable in the product level
 module for a given product.
 
