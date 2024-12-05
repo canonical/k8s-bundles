@@ -1,0 +1,28 @@
+applications:
+  easyrsa:
+    charm: easyrsa
+    channel: stable
+    num_units: 1
+    constraints: cpu-cores=1 mem=4G root-disk=16G
+    base: ubuntu@22.04
+  openstack-integrator:
+    charm: openstack-integrator
+    num_units: 1
+    trust: true
+    base: ubuntu@22.04
+  openstack-cloud-controller:
+    charm: openstack-cloud-controller
+    base: ubuntu@22.04
+  cinder-csi:
+    charm: cinder-csi
+    base: ubuntu@22.04
+relations:
+  - [openstack-cloud-controller:certificates,            easyrsa:client]
+  - [openstack-cloud-controller:kube-control,            k8s:kube-control]
+  - [openstack-cloud-controller:external-cloud-provider, k8s:external-cloud-provider]
+  - [openstack-cloud-controller:openstack,               openstack-integrator:clients]
+  - [easyrsa:client,                                     cinder-csi:certificates]
+  - [k8s:kube-control,              cinder-csi:kube-control]
+  - [openstack-integrator:clients,                       cinder-csi:openstack]
+  # TODO(Hue): Figure out what we should do with loadbalancer
+  # - [k8s:loadbalancer-external,     openstack-integrator:lb-consumers]
