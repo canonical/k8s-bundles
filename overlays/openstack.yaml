@@ -6,12 +6,11 @@ applications:
     base: ubuntu@22.04
   openstack-cloud-controller:
     charm: openstack-cloud-controller
-    base: ubuntu@22.04
   cinder-csi:
     charm: cinder-csi
-    base: ubuntu@22.04
 relations:
   - [openstack-cloud-controller:kube-control,            k8s:kube-control]
+  - [cinder-csi:kube-control,                            k8s:kube-control]
   - [openstack-cloud-controller:external-cloud-provider, k8s:external-cloud-provider]
   - [openstack-cloud-controller:openstack,               openstack-integrator:clients]
-  - [openstack-integrator:clients,                       cinder-csi:openstack]
+  - [cinder-csi:openstack,                               openstack-integrator:clients]
