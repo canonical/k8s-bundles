@@ -14,5 +14,4 @@ relations:
   - [openstack-cloud-controller:kube-control,            k8s:kube-control]
   - [openstack-cloud-controller:external-cloud-provider, k8s:external-cloud-provider]
   - [openstack-cloud-controller:openstack,               openstack-integrator:clients]
-  - [easyrsa:client,                                     cinder-csi:certificates]
   - [openstack-integrator:clients,                       cinder-csi:openstack]
