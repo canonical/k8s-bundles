@@ -2,7 +2,7 @@
 # See LICENSE file for licensing details.
 
 module "k8s" {
-  source      = "git::https://github.com/asbalderson/k8s-operator//charms/worker/k8s/terraform?ref=k8s-terraform"
+  source      = "git::https://github.com/canonical/k8s-operator//charms/worker/k8s/terraform"
   app_name    = module.k8s_config.config.app_name
   channel     = module.k8s_config.config.channel
   # This currently just sets the bootstrap-node-taints to have the right no scheudle value
@@ -21,7 +21,7 @@ module "k8s" {
 }
 
 module "k8s_worker" {
-  source      = "git::https://github.com/asbalderson/k8s-operator//charms/worker/terraform?ref=k8s-terraform"
+  source      = "git::https://github.com/canonical/k8s-operator//charms/worker/terraform"
   app_name    = module.k8s_worker_config.config.app_name
   channel     = module.k8s_worker_config.config.channel 
   config      = module.k8s_worker_config.config.config
