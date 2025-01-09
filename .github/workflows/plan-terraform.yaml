@@ -27,6 +27,7 @@ jobs:
       TF_VAR_model: test
       TF_VAR_manifest_yaml: ${{ matrix.test.yaml }}
       TF_VAR_cloud_integration: ${{ matrix.test.cloud_integration }}
+      WORKING_DIR: 'terraform'
     steps:
     - uses: actions/checkout@v4
     - name: Install Python
@@ -53,9 +54,13 @@ jobs:
           echo EOF
         } >> "$GITHUB_ENV"
     - uses: hashicorp/setup-terraform@v3
-    - run: terraform -chdir=terraform init
-    - run: terraform -chdir=terraform plan -out=tfplan
+    - run: terraform init
+      working-directory: ${{env.WORKING_DIR}}
+    - run: terraform plan -out=tfplan
+      working-directory: ${{env.WORKING_DIR}}
+    - run: terraform show tfplan
+      working-directory: ${{env.WORKING_DIR}}
     - uses: actions/upload-artifact@v4
       with:
         name: ${{matrix.test.name}}-terraform-plan
-        path: terraform/tfplan
+        path: ${{env.WORKING_DIR}}/tfplan
