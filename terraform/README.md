@@ -21,6 +21,7 @@ charm configuration.
 | - | - | - | - |
 | `manifest_yaml` | string | Absolute path to the manifest yaml for the deployment | True |
 | `model` | string | Name of the Juju model to deploy into | True |
+| `cloud_integration` | string | Selection of a cloud integration | False |
 
 ## Outputs
 TODO
