@@ -13,7 +13,7 @@ module "k8s" {
                   {"bootstrap-node-taints": "node-role.kubernetes.io/control-plane:NoSchedule"}
                 )
   constraints = module.k8s_config.config.constraints 
-  model  = var.model
+  model       = var.model
   resources   = module.k8s_config.config.resources
   revision    = module.k8s_config.config.revision
   base        = module.k8s_config.config.base
@@ -23,12 +23,24 @@ module "k8s" {
 module "k8s_worker" {
   source      = "git::https://github.com/canonical/k8s-operator//charms/worker/terraform"
   app_name    = module.k8s_worker_config.config.app_name
-  channel     = module.k8s_worker_config.config.channel 
+  channel     = coalesce(module.k8s_worker_config.config.channel, module.k8s_config.config.channel)
   config      = module.k8s_worker_config.config.config
   constraints = module.k8s_worker_config.config.constraints 
-  model  = var.model
+  model       = var.model
   resources   = module.k8s_worker_config.config.resources
   revision    = module.k8s_worker_config.config.revision
   base        = module.k8s_worker_config.config.base
   units       = module.k8s_worker_config.config.units
+}
+
+module "openstack" {
+  count           = var.cloud_integration == "openstack" ? 1 : 0
+  source          = "./openstack"
+  model           = var.model
+  manifest_yaml   = var.manifest_yaml
+  k8s             = {
+    app_name = module.k8s.app_name
+    provides = module.k8s.provides
+    requires = module.k8s.requires
+  }
 }

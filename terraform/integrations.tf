@@ -25,7 +25,6 @@ resource "juju_integration" "k8s_containerd" {
   }
 }
 
-
 resource "juju_integration" "k8s_cos_worker_tokens" {
   model = var.model
   application {

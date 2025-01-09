@@ -1,0 +1,61 @@
+# Copyright 2025 Canonical Ltd.
+# See LICENSE file for licensing details.
+
+name: Plan Terraform tests
+
+on:
+  push:
+    branches:
+    - main
+    - release-*
+  pull_request:
+
+jobs:
+  plan-terraform:
+    name: Plan Terraform with Juju
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        test:
+        - name: Openstack
+          yaml: test/openstack.yaml
+          cloud_integration: openstack
+        - name: Vanilla
+          yaml: test/vanilla.yaml
+          cloud_integration: ''
+    env:
+      TF_VAR_model: test
+      TF_VAR_manifest_yaml: ${{ matrix.test.yaml }}
+      TF_VAR_cloud_integration: ${{ matrix.test.cloud_integration }}
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - uses: charmed-kubernetes/actions-operator@main
+      with:
+        provider: lxd
+        channel: latest/stable        
+    - name: Prepare juju tf provider environment
+      run: |
+        CONTROLLER=$(juju whoami | yq .Controller)
+        JUJU_CONTROLLER_ADDRESSES="$(juju show-controller | yq '.[$CONTROLLER]'.details.\"api-endpoints\" | tr -d "[]' "|tr -d '"'|tr -d '\n')"
+        JUJU_USERNAME="$(cat ~/.local/share/juju/accounts.yaml | yq .controllers.$CONTROLLER.user|tr -d '"')"
+        JUJU_PASSWORD="$(cat ~/.local/share/juju/accounts.yaml | yq .controllers.$CONTROLLER.password|tr -d '"')"
+
+        echo "JUJU_CONTROLLER_ADDRESSES=$JUJU_CONTROLLER_ADDRESSES" >> "$GITHUB_ENV"
+        echo "JUJU_USERNAME=$JUJU_USERNAME" >> "$GITHUB_ENV"
+        echo "JUJU_PASSWORD=$JUJU_PASSWORD" >> "$GITHUB_ENV"
+        {
+          echo 'JUJU_CA_CERT<<EOF'
+          juju show-controller $(echo $CONTROLLER|tr -d '"') | yq '.[$CONTROLLER]'.details.\"ca-cert\"|tr -d '"'
+          echo EOF
+        } >> "$GITHUB_ENV"
+    - uses: hashicorp/setup-terraform@v3
+    - run: terraform -chdir=terraform init
+    - run: terraform -chdir=terraform plan -out=tfplan
+    - uses: actions/upload-artifact@v4
+      with:
+        name: ${{matrix.test.name}}-terraform-plan
+        path: terraform/tfplan
