@@ -10,7 +10,7 @@ module "openstack_integrator" {
   constraints = coalesce(module.openstack_integrator_config.config.constraints, var.k8s.config.constraints)
   channel     = coalesce(module.openstack_integrator_config.config.channel, var.k8s.config.channel)
 
-  config      = module.openstack_cloud_controller_config.config.config
+  config      = coalesce(module.openstack_integrator_config.config.config, {})
   resources   = module.openstack_integrator_config.config.resources
   revision    = module.openstack_integrator_config.config.revision
   units       = module.openstack_integrator_config.config.units
@@ -24,7 +24,7 @@ module "cinder_csi" {
   base        = coalesce(module.cinder_csi_config.config.base,        module.openstack_integrator_config.config.base,        var.k8s.config.base)
   channel     = coalesce(module.cinder_csi_config.config.channel,     module.openstack_integrator_config.config.channel,     var.k8s.config.channel)
 
-  config      = module.cinder_csi_config.config.config
+  config      = coalesce(module.cinder_csi_config.config.config, {})
   revision    = module.cinder_csi_config.config.revision
 }
 
@@ -36,6 +36,6 @@ module "openstack_cloud_controller" {
   base        = coalesce(module.openstack_cloud_controller_config.config.base,        module.openstack_integrator_config.config.base,        var.k8s.config.base)
   channel     = coalesce(module.openstack_cloud_controller_config.config.channel,     module.openstack_integrator_config.config.channel,     var.k8s.config.channel)
 
-  config      = module.openstack_cloud_controller_config.config.config
+  config      = coalesce(module.openstack_cloud_controller_config.config.config, {})
   revision    = module.openstack_cloud_controller_config.config.revision
 }
