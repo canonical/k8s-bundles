@@ -21,3 +21,4 @@ variable "cloud_integration" {
     error_message = "Cloud must be one of '', or 'openstack'"
   }
 }
+

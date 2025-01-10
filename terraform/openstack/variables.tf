@@ -11,7 +11,6 @@ variable "model" {
   type        = string
 }
 
-
 variable "k8s" {
   description = "K8s application object"
   type        = object({

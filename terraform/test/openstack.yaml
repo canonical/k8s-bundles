@@ -5,6 +5,7 @@ k8s:
     channel: latest/edge
 k8s_worker:
     units: 2
+    constraints: arch=amd64 cores=2 mem=8192M root-disk=16384M
 openstack_integrator:
     channel: 1.31/stable
     base: ubuntu@22.04
