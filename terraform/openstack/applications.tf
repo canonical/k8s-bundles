@@ -29,7 +29,7 @@ module "cinder_csi" {
 }
 
 module "openstack_cloud_controller" {
-  source      = "git::https://github.com/charmed-kubernetes/openstack-cloud-controller-operator//terraform?ref=KU-2413/adding-terraform-modules"
+  source      = "git::https://github.com/charmed-kubernetes/openstack-cloud-controller-operator//terraform?ref=main"
 
   model       = var.model
   app_name    = module.openstack_cloud_controller_config.config.app_name
