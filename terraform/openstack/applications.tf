@@ -2,7 +2,7 @@
 # See LICENSE file for licensing details.
 
 module "openstack_integrator" {
-  source      = "git::https://github.com/charmed-kubernetes/charm-openstack-integrator//terraform?ref=KU-2412/adding-terraform-modules"
+  source      = "git::https://github.com/charmed-kubernetes/charm-openstack-integrator//terraform?ref=main"
 
   model       = var.model
   app_name    = module.openstack_integrator_config.config.app_name
