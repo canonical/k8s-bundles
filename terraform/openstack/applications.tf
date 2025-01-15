@@ -17,7 +17,7 @@ module "openstack_integrator" {
 }
 
 module "cinder_csi" {
-  source      = "git::https://github.com/canonical/cinder-csi-operator//terraform?ref=KU-2415/adding-terraform-modules"
+  source      = "git::https://github.com/canonical/cinder-csi-operator//terraform?ref=main"
 
   model       = var.model
   app_name    = module.cinder_csi_config.config.app_name
