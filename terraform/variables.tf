@@ -17,8 +17,8 @@ variable "cloud_integration" {
   default     = ""
 
   validation {
-    condition     = contains(["", "openstack"], var.cloud_integration)
-    error_message = "Cloud must be one of '', or 'openstack'"
+    condition     = contains(["", "aws", "openstack"], var.cloud_integration)
+    error_message = "Cloud unsupported. Try: '', 'aws', or 'openstack'"
   }
 }
 

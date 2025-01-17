@@ -17,6 +17,9 @@ jobs:
     strategy:
       matrix:
         test:
+        - name: AWS
+          yaml: test/aws.yaml
+          cloud_integration: aws
         - name: Openstack
           yaml: test/openstack.yaml
           cloud_integration: openstack
