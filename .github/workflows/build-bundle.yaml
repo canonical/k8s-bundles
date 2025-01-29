@@ -55,7 +55,7 @@ jobs:
       
       - name: Upload bundle to ${{env.channel}}
         if: github.event_name == 'push' && steps.packed.outcome == 'success'
-        uses: canonical/charming-actions/upload-bundle@2.6.3
+        uses: canonical/charming-actions/upload-bundle@2.7.0
         with:
           bundle-path: ./main
           channel: ${{env.channel}}
