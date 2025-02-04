@@ -71,15 +71,15 @@ a single manifest file similar to the one below:
 
 ``` yaml
 k8s:
-    units: 2
+    units: 3
     base: ubuntu@24.04
-    constraints: arch=amd64 cores=2 mem=4096M root-disk=16384M
-    channel: 1.31/beta
+    constraints: arch=amd64 cores=2 mem=8G root-disk=16G
+    channel: latest/edge
 k8s_worker:
-    units: 2
+    units: 3
     base: ubuntu@24.04
-    constraints: arch=amd64 cores=2 mem=8192M root-disk=16384M
-    channel: 1.31/beta
+    constraints: arch=amd64 cores=2 mem=8G root-disk=16G
+    channel: latest/edge
 ```
 
 Using the terraform in the above section, the `units`, `base`, `constraints`, and `channel`
