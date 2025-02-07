@@ -60,3 +60,15 @@ resource "juju_integration" "cinder_csi_kube_control" {
     endpoint  = module.cinder_csi.requires.kube_control
   }
 }
+
+resource "juju_integration" "openstack_external_load_balancer" {
+  model = var.model
+  application {
+    name      = var.k8s.app_name
+    endpoint  = var.k8s.requires.external_load_balancer
+  }
+  application {
+    name      = module.openstack_integrator.app_name
+    endpoint  = module.openstack_integrator.provides.lb_consumers
+  }
+}
