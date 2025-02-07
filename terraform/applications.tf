@@ -45,3 +45,16 @@ module "openstack" {
     requires   = module.k8s.requires
   }
 }
+
+module "aws" {
+  count           = var.cloud_integration == "aws" ? 1 : 0
+  source          = "./aws"
+  model           = var.model
+  manifest_yaml   = var.manifest_yaml
+  k8s             = {
+    app_name   = module.k8s.app_name
+    config     = module.k8s_config.config
+    provides   = module.k8s.provides
+    requires   = module.k8s.requires
+  }
+}
