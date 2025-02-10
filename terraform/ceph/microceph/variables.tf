@@ -24,10 +24,22 @@ variable "channel" {
   default     = "squid/beta"
 }
 
+variable "resources" {
+  description = "Resources to use with the application."
+  type        = map(string)
+  default     = {}
+}
+
 variable "revision" {
   description = "Revision number of the charm"
   type        = number
   default     = null
+}
+
+variable "units" {
+  description = "Number of units to deploy"
+  type        = number
+  default     = 1
 }
 
 variable "config" {

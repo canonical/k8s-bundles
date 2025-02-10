@@ -2,12 +2,12 @@
 # See LICENSE file for licensing details.
 
 module "microceph" {
-  source      = "git::https://github.com/canonical/k8s-bundles//terraform/ceph/microceph?ref=KU-2592/terraform-ceph"
+  source      = "./microceph"
 
   model       = var.model
-  base        = coalesce(module.microceph.config.base, var.k8s.config.base)
-  constraints = coalesce(module.microceph.config.constraints, var.k8s.config.constraints)
-  channel     = coalesce(module.microceph.config.channel, var.k8s.config.channel)
+  base        = coalesce(module.microceph_config.config.base, var.k8s.config.base)
+  constraints = coalesce(module.microceph_config.config.constraints, var.k8s.config.constraints)
+  channel     = coalesce(module.microceph_config.config.channel, var.k8s.config.channel)
 
   config      = coalesce(module.microceph_config.config.config, {})
   resources   = module.microceph_config.config.resources
@@ -19,7 +19,7 @@ module "ceph_csi" {
   source      = "git::https://github.com/charmed-kubernetes/ceph-csi-operator//terraform?ref=main"
 
   model       = var.model
-  app_name    = module.ceph_csi.config.app_name
+  app_name    = module.ceph_csi_config.config.app_name
   base        = coalesce(module.ceph_csi_config.config.base, var.k8s.config.base)
   channel     = coalesce(module.ceph_csi_config.config.channel, var.k8s.config.channel)
 
