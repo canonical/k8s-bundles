@@ -20,7 +20,7 @@ module "ceph_csi" {
 
   model       = var.model
   app_name    = module.ceph_csi_config.config.app_name
-  base        = coalesce(module.ceph_csi_config.config.base, var.k8s.config.base)
+  base        = module.ceph_csi_config.config.base
   channel     = coalesce(module.ceph_csi_config.config.channel, var.k8s.config.channel)
 
   config      = coalesce(module.ceph_csi_config.config.config, {})
