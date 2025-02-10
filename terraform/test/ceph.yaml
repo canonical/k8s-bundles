@@ -8,19 +8,13 @@ k8s_worker:
     base: ubuntu@24.04
     constraints: arch=amd64 cores=2 mem=8G root-disk=16G
     channel: latest/edge
-openstack_integrator:
-    channel: 1.31/stable
-    base: ubuntu@22.04
 ceph_csi:
     channel: 1.32/stable
     base: ubuntu@24.04
-ceph_mon:
-    units: 1
-    base: ubuntu@24.04
-    constraints: arch=amd64 cores=2 mem=8G root-disk=16G
-    channel: latest/edge
-ceph_osd:
+microceph:
     units: 3
     base: ubuntu@24.04
     constraints: arch=amd64 cores=2 mem=8G root-disk=16G
-    channel: latest/edge
+    channel: squid/beta
+    config:
+        snap-channel: squid/stable

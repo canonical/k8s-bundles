@@ -16,6 +16,8 @@ resource "juju_application" "microceph" {
 
   config      = var.config
   constraints = var.constraints
+  units = var.units
+  resources = var.resources
 }
 
 # juju_offer.microceph_offer will be created
