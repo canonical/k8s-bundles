@@ -2,7 +2,7 @@
 # See LICENSE file for licensing details.
 
 module "microceph" {
-  source      = "git::https://github.com/canonical/k8s-bundles//terraform/ceph/microceph?ref=main"
+  source      = "git::https://github.com/canonical/k8s-bundles//terraform/ceph/microceph?ref=KU-2592/terraform-ceph"
 
   model       = var.model
   base        = coalesce(module.microceph.config.base, var.k8s.config.base)
