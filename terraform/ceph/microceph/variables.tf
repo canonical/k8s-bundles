@@ -4,18 +4,13 @@
 variable "app_name" {
   description = "Name of the application in the Juju model."
   type        = string
-  default     = "ceph-csi"
+  default     = "microceph"
 }
 
 variable "base" {
   description = "Ubuntu bases to deploy the charm onto"
   type        = string
   default     = "ubuntu@24.04"
-
-  validation {
-    condition     = contains(["ubuntu@24.04"], var.base)
-    error_message = "Base must be ubuntu@24.04"
-  }
 }
 
 variable "channel" {
