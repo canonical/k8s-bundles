@@ -12,7 +12,7 @@ module "k8s" {
                   module.k8s_config.config.config,
                   {"bootstrap-node-taints": "node-role.kubernetes.io/control-plane:NoSchedule"}
                 )
-  constraints = module.k8s_config.config.constraints 
+  constraints = module.k8s_config.config.constraints
   model       = var.model
   resources   = module.k8s_config.config.resources
   revision    = module.k8s_config.config.revision
@@ -36,6 +36,18 @@ module "k8s_worker" {
 module "openstack" {
   count           = var.cloud_integration == "openstack" ? 1 : 0
   source          = "./openstack"
+  model           = var.model
+  manifest_yaml   = var.manifest_yaml
+  k8s             = {
+    app_name   = module.k8s.app_name
+    config     = module.k8s_config.config
+    provides   = module.k8s.provides
+    requires   = module.k8s.requires
+  }
+}
+
+module "ceph" {
+  source          = "./ceph"
   model           = var.model
   manifest_yaml   = var.manifest_yaml
   k8s             = {

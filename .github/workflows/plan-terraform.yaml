@@ -23,6 +23,8 @@ jobs:
         - name: Vanilla
           yaml: test/vanilla.yaml
           cloud_integration: ''
+        - name: Ceph
+          yaml: test/ceph.yaml
     env:
       TF_VAR_model: test
       TF_VAR_manifest_yaml: ${{ matrix.test.yaml }}
@@ -37,7 +39,7 @@ jobs:
     - uses: charmed-kubernetes/actions-operator@main
       with:
         provider: lxd
-        channel: latest/stable        
+        channel: latest/stable
     - name: Prepare juju tf provider environment
       run: |
         CONTROLLER=$(juju whoami | yq .Controller)
