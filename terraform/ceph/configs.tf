@@ -4,7 +4,7 @@
 module "microceph_config" {
   source = "git::https://github.com/canonical/k8s-bundles//terraform/manifest?ref=main"
   manifest = var.manifest_yaml
-  app = "ceph_csi"
+  app = "microceph"
 }
 
 module "ceph_csi_config" {

@@ -10,7 +10,7 @@ k8s_worker:
     channel: latest/edge
 ceph_csi:
     channel: 1.32/stable
-    base: ubuntu@24.04
+    base: ubuntu@22.04
 microceph:
     units: 3
     base: ubuntu@24.04
