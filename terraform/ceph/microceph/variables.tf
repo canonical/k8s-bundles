@@ -13,7 +13,7 @@ variable "base" {
   default     = "ubuntu@24.04"
 
   validation {
-    condition     = contains(["ubuntu@24.04"], var.base)
+    condition     = contains([null, "ubuntu@24.04"], var.base)
     error_message = "Base must be ubuntu@24.04"
   }
 }
