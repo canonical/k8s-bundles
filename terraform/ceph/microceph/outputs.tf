@@ -8,6 +8,6 @@ output "app_name" {
 
 output "provides" {
   value = {
-    ceph_client     = "ceph-client"
+    ceph     = "ceph"
   }
 }

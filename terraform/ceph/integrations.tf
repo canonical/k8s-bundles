@@ -5,7 +5,7 @@ resource "juju_integration" "ceph_client" {
   model = var.model
   application {
     name      = module.microceph.app_name
-    endpoint  = module.microceph.provides.ceph_client
+    endpoint  = module.microceph.provides.ceph
   }
   application {
     name      = module.ceph_csi.app_name
