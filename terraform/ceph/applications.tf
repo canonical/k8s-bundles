@@ -16,7 +16,7 @@ module "microceph" {
 }
 
 module "ceph_csi" {
-  source      = "git::https://github.com/charmed-kubernetes/ceph-csi-operator//terraform?ref=main"
+  source      = "git::https://github.com/charmed-kubernetes/ceph-csi-operator//terraform?ref=KU-2592/terraform-ceph"
 
   model       = var.model
   app_name    = module.ceph_csi_config.config.app_name
