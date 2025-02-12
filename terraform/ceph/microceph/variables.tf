@@ -11,12 +11,6 @@ variable "base" {
   description = "Ubuntu bases to deploy the charm onto"
   type        = string
   default     = "ubuntu@24.04"
-  nullable    = false
-
-/*   validation {
-    condition     = contains(["ubuntu@24.04"], var.base)
-    error_message = "Base must be ubuntu@24.04"
-  } */
 }
 
 variable "channel" {
