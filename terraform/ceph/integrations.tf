@@ -4,12 +4,24 @@
 resource "juju_integration" "ceph_client" {
   model = var.model
   application {
-    name      = module.microceph.app_name
-    endpoint  = module.microceph.provides.ceph
+    name      = module.ceph_mon.app_name
+    endpoint  = module.ceph_mon.provides.client
   }
   application {
     name      = module.ceph_csi.app_name
     endpoint  = module.ceph_csi.requires.ceph_client
+  }
+}
+
+resource "juju_integration" "ceph_mon" {
+  model = var.model
+  application {
+    name      = module.ceph_mon.app_name
+    endpoint  = module.ceph_mon.provides.osd
+  }
+  application {
+    name      = module.ceph_osd.app_name
+    endpoint  = module.ceph_osd.requires.mon
   }
 }
 

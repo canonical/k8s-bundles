@@ -1,22 +1,36 @@
 # Copyright 2025 Canonical Ltd.
 # See LICENSE file for licensing details.
 
-module "microceph" {
-  source      = "./microceph"
+module "ceph_mon" {
+  source      = "./ceph_mon"
 
   model       = var.model
-  base        = coalesce(module.microceph_config.config.base, var.k8s.config.base)
-  constraints = coalesce(module.microceph_config.config.constraints, var.k8s.config.constraints)
-  channel     = coalesce(module.microceph_config.config.channel, var.k8s.config.channel)
+  base        = coalesce(module.ceph_mon_config.config.base, var.k8s.config.base)
+  constraints = coalesce(module.ceph_mon_config.config.constraints, var.k8s.config.constraints)
+  channel     = coalesce(module.ceph_mon_config.config.channel, var.k8s.config.channel)
 
-  config      = coalesce(module.microceph_config.config.config, {})
-  resources   = module.microceph_config.config.resources
-  revision    = module.microceph_config.config.revision
-  units       = module.microceph_config.config.units
+  config      = coalesce(module.ceph_mon_config.config.config, {})
+  resources   = module.ceph_mon_config.config.resources
+  revision    = module.ceph_mon_config.config.revision
+  units       = module.ceph_mon_config.config.units
+}
+
+module "ceph_osd" {
+  source      = "./ceph_osd"
+
+  model       = var.model
+  base        = coalesce(module.ceph_osd_config.config.base, var.k8s.config.base)
+  constraints = coalesce(module.ceph_osd_config.config.constraints, var.k8s.config.constraints)
+  channel     = coalesce(module.ceph_osd_config.config.channel, var.k8s.config.channel)
+
+  config      = coalesce(module.ceph_osd_config.config.config, {})
+  resources   = module.ceph_osd_config.config.resources
+  revision    = module.ceph_osd_config.config.revision
+  units       = module.ceph_osd_config.config.units
 }
 
 module "ceph_csi" {
-  source      = "git::https://github.com/charmed-kubernetes/ceph-csi-operator//terraform?ref=KU-2592/terraform-ceph"
+  source      = "git::https://github.com/charmed-kubernetes/ceph-csi-operator//terraform?ref=main"
 
   model       = var.model
   app_name    = module.ceph_csi_config.config.app_name

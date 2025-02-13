@@ -2,7 +2,7 @@
 # See LICENSE file for licensing details.
 
 module "k8s" {
-  source   = "git::https://github.com/canonical/k8s-operator//charms/worker/k8s/terraform?ref=KU-2592/terraform-ceph"
+  source   = "git::https://github.com/canonical/k8s-operator//charms/worker/k8s/terraform?ref=main"
   app_name = module.k8s_config.config.app_name
   channel  = module.k8s_config.config.channel
   # This currently just sets the bootstrap-node-taints to have the right no schedule value
@@ -21,7 +21,7 @@ module "k8s" {
 }
 
 module "k8s_worker" {
-  source      = "git::https://github.com/canonical/k8s-operator//charms/worker/terraform?ref=KU-2592/terraform-ceph"
+  source      = "git::https://github.com/canonical/k8s-operator//charms/worker/terraform?ref=main"
   app_name    = module.k8s_worker_config.config.app_name
   base        = coalesce(module.k8s_worker_config.config.base,        module.k8s_config.config.base)
   constraints = coalesce(module.k8s_worker_config.config.constraints, module.k8s_config.config.constraints)
