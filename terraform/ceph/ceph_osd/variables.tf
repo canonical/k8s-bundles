@@ -50,7 +50,7 @@ variable "storage" {
     count  = number
     size   = string
   }))
-  default     = {}
+  default     = []
 }
 
 variable "constraints" {
