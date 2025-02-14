@@ -12,9 +12,9 @@ resource "juju_application" "ceph_osd" {
     base     = var.base
   }
 
-  config      = var.config
-  constraints = var.constraints
-  units       = var.units
-  resources   = var.resources
-  storage     = var.storage
+  config             = var.config
+  constraints        = var.constraints
+  units              = var.units
+  resources          = var.resources
+  storage_directives = var.storage
 }

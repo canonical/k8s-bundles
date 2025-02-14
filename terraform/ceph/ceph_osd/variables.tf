@@ -45,12 +45,8 @@ variable "config" {
 
 variable "storage" {
   description = "Storage configuration for this application."
-  type = set(object({
-    type   = string
-    count  = number
-    size   = string
-  }))
-  default     = []
+  type        = map(string)
+  default     = {}
 }
 
 variable "constraints" {

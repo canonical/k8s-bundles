@@ -25,7 +25,7 @@ module "ceph_osd" {
 
   config    = coalesce(module.ceph_osd_config.config.config, {})
   resources = module.ceph_osd_config.config.resources
-  storage   = coalesce(module.ceph_osd_config.config.storage, [])
+  storage   = coalesce(module.ceph_osd_config.config.storage, {})
   revision  = module.ceph_osd_config.config.revision
   units     = module.ceph_osd_config.config.units
 }
