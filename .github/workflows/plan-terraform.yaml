@@ -17,6 +17,12 @@ jobs:
     strategy:
       matrix:
         test:
+        - name: Openstack
+          yaml: test/openstack.yaml
+          cloud_integration: openstack
+        - name: Vanilla
+          yaml: test/vanilla.yaml
+          cloud_integration: ''
         - name: Ceph
           yaml: test/ceph.yaml
     env:

@@ -45,7 +45,11 @@ variable "config" {
 
 variable "storage" {
   description = "Storage configuration for this application."
-  type        = map(string)
+  type = set(object({
+    type   = string
+    count  = number
+    size   = string
+  }))
   default     = {}
 }
 
