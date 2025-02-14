@@ -1,8 +1,8 @@
 # Terraform Manifest Module
 
-This module reads a yaml configuration file and exports the values into terraform variables that 
-can be passed down into other modules. It is specifically tailored for working with 
-modules for charms defined with the 
+This module reads a yaml configuration file and exports the values into terraform variables that
+can be passed down into other modules. It is specifically tailored for working with
+modules for charms defined with the
 [juju terraform provider](https://registry.terraform.io/providers/juju/juju/latest/docs). It
 simplifies having to pass every individual charm input as a variable in the product level
 module for a given product.
@@ -18,13 +18,14 @@ All outputs are under `config` as a map of values below:
 | Name | Description |
 | - | - |
 | `app_name` | Name of the application in Juju. |
-| `base` | Base to deploy the charm as eg. ubuntu@24.04. | 
+| `base` | Base to deploy the charm as eg. ubuntu@24.04. |
 | `channel` | Channel of the application being deployed. |
 | `config` | Map of the config for the charm, values can be found under the specific charm |
 | `constraints` | String of constraints when deploying the charm `cores=2 mem=4069M` |
 | `resources` | List of resources to deploy with the charm. |
 | `revision` | Specific revision of this charm to deploy. |
 | `units` | Number of units of a charm to deploy |
+| `storage` | Storage configuration of a charm to deploy |
 
 ## Usage
 
@@ -35,7 +36,7 @@ between each charm and the overall product.
 
 ### Defining a `manifest` in terraform
 
-The manifest module will have to be defined for each charm in question. Terraform will 
+The manifest module will have to be defined for each charm in question. Terraform will
 load the config under the app key and output the values. If the key is not found in the
 manifest, then the module will return `null` and terraform will ignore the configuration.
 
@@ -53,9 +54,9 @@ These values can the be passed into a resource for a specific charm:
 module "k8s_worker" {
   source      = "git::https://github.com/canonical/k8s-operator//charms/worker/terraform?ref=main"
   app_name    = module.k8s_worker_config.config.app_name
-  channel     = module.k8s_worker_config.config.channel 
+  channel     = module.k8s_worker_config.config.channel
   config      = module.k8s_worker_config.config.config
-  constraints = module.k8s_worker_config.config.constraints 
+  constraints = module.k8s_worker_config.config.constraints
   model  = var.model
   resources   = module.k8s_worker_config.config.resources
   revision    = module.k8s_worker_config.config.revision
