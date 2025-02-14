@@ -11,5 +11,6 @@ output "config" {
     resources   = lookup(local.yaml_data, "resoruces", null)
     revision    = lookup(local.yaml_data, "revision", null)
     units       = lookup(local.yaml_data, "units", null)
+    storage     = lookup(local.yaml_data, "storage", null)
   }
 }
