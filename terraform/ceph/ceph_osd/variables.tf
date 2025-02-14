@@ -43,6 +43,12 @@ variable "config" {
   default     = {}
 }
 
+variable "storage" {
+  description = "Storage configuration for this application."
+  type        = map(string)
+  default     = {}
+}
+
 variable "constraints" {
   description = "Juju constraints to apply for this application."
   type        = string

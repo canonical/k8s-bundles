@@ -14,6 +14,7 @@ resource "juju_application" "ceph_osd" {
 
   config      = var.config
   constraints = var.constraints
-  units = var.units
-  resources = var.resources
+  units       = var.units
+  resources   = var.resources
+  storage     = var.storage
 }
