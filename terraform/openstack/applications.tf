@@ -2,7 +2,7 @@
 # See LICENSE file for licensing details.
 
 module "openstack_integrator" {
-  source      = "git::https://github.com/charmed-kubernetes/charm-openstack-integrator//terraform?ref=main"
+  source      = "git::https://github.com/charmed-kubernetes/charm-openstack-integrator//terraform?ref=KU-2727/float-terraform-juju-provider"
 
   model       = var.model
   app_name    = module.openstack_integrator_config.config.app_name
@@ -17,7 +17,7 @@ module "openstack_integrator" {
 }
 
 module "cinder_csi" {
-  source      = "git::https://github.com/canonical/cinder-csi-operator//terraform?ref=main"
+  source      = "git::https://github.com/canonical/cinder-csi-operator//terraform?ref=KU-2727/float-terraform-juju-provider"
 
   model       = var.model
   app_name    = module.cinder_csi_config.config.app_name
@@ -29,7 +29,7 @@ module "cinder_csi" {
 }
 
 module "openstack_cloud_controller" {
-  source      = "git::https://github.com/charmed-kubernetes/openstack-cloud-controller-operator//terraform?ref=main"
+  source      = "git::https://github.com/charmed-kubernetes/openstack-cloud-controller-operator//terraform?ref=KU-2727/float-terraform-juju-provider"
 
   model       = var.model
   app_name    = module.openstack_cloud_controller_config.config.app_name

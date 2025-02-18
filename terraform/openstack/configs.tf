@@ -2,13 +2,13 @@
 # See LICENSE file for licensing details.
 
 module "openstack_integrator_config" {
-  source = "../manifest"
+  source = "../manifest/"
   manifest = var.manifest_yaml
   app = "openstack_integrator"
 }
 
 module "cinder_csi_config" {
-  source = "../manifest"
+  source = "../manifest/"
   manifest = var.manifest_yaml
   app = "cinder_csi"
 }
