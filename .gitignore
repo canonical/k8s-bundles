@@ -7,4 +7,5 @@ main/.charmcraft_output_packages.txt
 **/.terraform
 **/.terraform.lock.hcl
 **/*.tfstate
+**/*.tfstate.backup
 **/tfplan
