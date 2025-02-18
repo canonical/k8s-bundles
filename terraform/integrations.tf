@@ -2,17 +2,28 @@
 # See LICENSE file for licensing details.
 
 resource "juju_model" "this" {
-  name = var.model
+  name = var.model.name
 
   cloud {
-    name     = var.cloud
-    region   = var.region
+    name     = var.model.cloud
+    region   = var.model.region
   }
 
-  config = {
-    fan-config = ""
-    container-networking-method = "local"
-  }
+  config = merge(
+    {  # Remove two keys from the config map if they exist
+      for k, v in var.model.config != null ? var.model.config : {} :
+        k => v
+          if !contains(["fan-config", "container-networking-method"], k)
+    },
+    {
+      fan-config                  = ""
+      container-networking-method = "local"
+    }
+  )
+
+  constraints = var.model.constraints
+  credential = var.model.credential
+
   provisioner "local-exec" {
     # workaround for https://github.com/juju/terraform-provider-juju/issues/667
     command = "juju model-config fan-config=''"
