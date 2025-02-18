@@ -8,6 +8,6 @@ output "app_name" {
 
 output "requires" {
   value = {
-    mon     = "mon"
+    mon = "mon"
   }
 }

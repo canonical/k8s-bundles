@@ -14,6 +14,6 @@ resource "juju_application" "ceph_mon" {
 
   config      = var.config
   constraints = var.constraints
-  units = var.units
-  resources = var.resources
+  units       = var.units
+  resources   = var.resources
 }

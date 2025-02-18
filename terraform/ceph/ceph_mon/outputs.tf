@@ -8,7 +8,7 @@ output "app_name" {
 
 output "provides" {
   value = {
-    osd     = "osd"
-    client     = "client"
+    osd    = "osd"
+    client = "client"
   }
 }

@@ -8,24 +8,24 @@ simplifies having to pass every individual charm input as a variable in the prod
 module for a given product.
 
 ## Inputs
-| Name | Type | Description | Required |
-| - | - | - | - |
-| `manifest` | string | Absolute path to the yaml file with the config for a Juju application. | true |
-| `app` | string | Name of the application to load the config for. | true |
+| Name       | Type   | Description                                                            | Required |
+|------------|--------|------------------------------------------------------------------------|----------|
+| `manifest` | string | Absolute path to the yaml file with the config for a Juju application. | true     |
+| `app`      | string | Name of the application to load the config for.                        | true     |
 
 ## Outputs
 All outputs are under `config` as a map of values below:
-| Name | Description |
-| - | - |
-| `app_name` | Name of the application in Juju. |
-| `base` | Base to deploy the charm as eg. ubuntu@24.04. |
-| `channel` | Channel of the application being deployed. |
-| `config` | Map of the config for the charm, values can be found under the specific charm |
-| `constraints` | String of constraints when deploying the charm `cores=2 mem=4069M` |
-| `resources` | List of resources to deploy with the charm. |
-| `revision` | Specific revision of this charm to deploy. |
-| `units` | Number of units of a charm to deploy |
-| `storage` | Storage configuration of a charm to deploy |
+| Name          | Description                                                                   |
+|---------------|-------------------------------------------------------------------------------|
+| `app_name`    | Name of the application in Juju.                                              |
+| `base`        | Base to deploy the charm as eg. ubuntu@24.04.                                 |
+| `channel`     | Channel of the application being deployed.                                    |
+| `config`      | Map of the config for the charm, values can be found under the specific charm |
+| `constraints` | String of constraints when deploying the charm `cores=2 mem=4069M`            |
+| `resources`   | List of resources to deploy with the charm.                                   |
+| `revision`    | Specific revision of this charm to deploy.                                    |
+| `units`       | Number of units of a charm to deploy                                          |
+| `storage`     | Storage configuration of a charm to deploy                                    |
 
 ## Usage
 
