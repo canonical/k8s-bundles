@@ -10,11 +10,17 @@ resource "juju_model" "this" {
   }
 
   config = merge(
-    {  # Remove two keys from the config map if they exist
+  # Here we drop 2 model-config options the user may naively set
+  #   fan-config
+  #   container-networking-method
+    {
       for k, v in var.model.config != null ? var.model.config : {} :
         k => v
           if !contains(["fan-config", "container-networking-method"], k)
     },
+  # Then we merge in the required settings
+  #   fan-config                   - required to be empty for k8s
+  #   container-networking-method  - required to be local for k8s
     {
       fan-config                  = ""
       container-networking-method = "local"
