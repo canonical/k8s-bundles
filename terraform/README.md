@@ -48,8 +48,9 @@ module "k8s" {
   source        = "git::https://github.com/canonical/k8s-bundles//terraform?ref=main" 
   model         = {
     name = "my-canonical-k8s"
-    cloud = "openstack"
+    cloud = "prod-example-openstack"
   }
+  cloud_integration = "openstack"
   manifest_yaml = "/path/to/manifest.yaml"
 }
 ```
@@ -58,15 +59,15 @@ Define your manifest.yaml based on the requirements for your deployment. Specifi
 
 ```yaml
 k8s:
-    units: 3
-    base: ubuntu@24.04
-    constraints: arch=amd64 cores=2 mem=4096M root-disk=16384M
-    channel: 1.32/stable
+  units: 3
+  base: ubuntu@24.04
+  constraints: arch=amd64 cores=2 mem=4096M root-disk=16384M
+  channel: 1.32/stable
 k8s_worker:
-    units: 2
-    base: ubuntu@24.04
-    constraints: arch=amd64 cores=2 mem=8192M root-disk=16384M
-    channel: 1.32/stable
+  units: 2
+  base: ubuntu@24.04
+  constraints: arch=amd64 cores=2 mem=8192M root-disk=16384M
+  channel: 1.32/stable
 ```
 
 <!--LINKS -->

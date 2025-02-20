@@ -28,7 +28,7 @@ jobs:
           csi_integration: 'ceph'
           cloud_integration: ''
     env:
-      TF_VAR_model: '{"name": "test", "cloud": "openstack", "config": {"test": true}}'
+      TF_VAR_model: '{"name": "test", "cloud": "prod-k8s-openstack", "config": {"test": true}}'
       TF_VAR_manifest_yaml: ${{ matrix.test.yaml }}
       TF_VAR_cloud_integration: ${{ matrix.test.cloud_integration }}
       TF_VAR_csi_integration: ${{ matrix.test.csi_integration }}
