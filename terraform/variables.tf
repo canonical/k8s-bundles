@@ -57,7 +57,7 @@ EOT
   validation {
     condition = (
       var.model.config == null || alltrue([
-        for k, v in var.model.config:
+        for k, v in var.model.config != null ? var.model.config : {}:
         v == null || can(tostring(v)) || can(tonumber(v)) || can(tobool(v))
       ])
     )
