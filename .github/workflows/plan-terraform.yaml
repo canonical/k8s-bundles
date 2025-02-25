@@ -17,16 +17,19 @@ jobs:
     strategy:
       matrix:
         test:
+        - name: Vanilla
+          yaml: test/vanilla.yaml
         - name: Openstack
           yaml: test/openstack.yaml
           cloud_integration: openstack
-        - name: Vanilla
-          yaml: test/vanilla.yaml
-          cloud_integration: ''
+        - name: Ceph
+          yaml: test/ceph.yaml
+          csi_integration: 'ceph'
     env:
       TF_VAR_model: test
       TF_VAR_manifest_yaml: ${{ matrix.test.yaml }}
       TF_VAR_cloud_integration: ${{ matrix.test.cloud_integration }}
+      TF_VAR_csi_integration: ${{ matrix.test.csi_integration }}
       WORKING_DIR: 'terraform'
     steps:
     - uses: actions/checkout@v4
@@ -37,7 +40,7 @@ jobs:
     - uses: charmed-kubernetes/actions-operator@main
       with:
         provider: lxd
-        channel: latest/stable        
+        channel: latest/stable
     - name: Prepare juju tf provider environment
       run: |
         CONTROLLER=$(juju whoami | yq .Controller)
