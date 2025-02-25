@@ -41,7 +41,20 @@ TODO
 
 ## Usage
 
-Add the following to your main.tf for the canonical k8s solution:
+---
+**NOTE**
+
+If the model exists already, it must be imported into the model state to
+prevent the model from being destroyed and recreated.
+
+```sh
+terraform import module.k8s.juju_model.this "<name of the model>"
+```
+---
+
+
+Add the following to your `main.tf` for the canonical k8s solution:
+
 
 ```hcl
 module "k8s" {
@@ -68,6 +81,18 @@ k8s_worker:
   base: ubuntu@24.04
   constraints: arch=amd64 cores=2 mem=8192M root-disk=16384M
   channel: 1.32/stable
+```
+
+Run a plan to ensure everything look correct:
+
+```sh
+terraform plan
+```
+
+And apply with:
+
+```sh
+terraform apply
 ```
 
 <!--LINKS -->
