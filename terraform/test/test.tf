@@ -7,10 +7,16 @@ module "k8s" {
   }
   cloud_integration = var.cloud_integration
   manifest_yaml = var.manifest_yaml
+  csi_integration = var.csi_integration
 }
 
 variable "cloud_integration" {
   description = "Selection of a cloud integration."
+  type        = string
+}
+
+variable "csi_integration" {
+  description = "Selection of a csi integration."
   type        = string
 }
 

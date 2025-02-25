@@ -18,7 +18,7 @@ jobs:
       matrix:
         test:
         - name: Vanilla
-          yaml: test/vanilla.yaml
+          yaml: ./vanilla.yaml
           cloud_integration: ''
         - name: Openstack
           yaml: ./openstack.yaml

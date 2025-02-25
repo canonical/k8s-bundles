@@ -22,10 +22,10 @@ variable "csi_integration" {
   description = "Selection of a csi integration"
   type        = string
   default     = ""
-  nullable = false
+  nullable    = false
 
   validation {
-    condition     = contains(["", "ceph"], var.csi_integration)
+    condition = can(regex("^(|ceph)$", var.csi_integration))
     error_message = "CSI must be one of '', or 'ceph'"
   }
 }
