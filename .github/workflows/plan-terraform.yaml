@@ -20,12 +20,17 @@ jobs:
         - name: Vanilla
           yaml: ./vanilla.yaml
           cloud_integration: ''
+          csi_integration: '[]'
         - name: Openstack
           yaml: ./openstack.yaml
           cloud_integration: openstack
+          csi_integration: '[]'
         - name: Ceph
           yaml: ./ceph.yaml
-          csi_integration: 'ceph'
+          csi_integration: '["ceph"]'
+        - name: Ceph Multiple Clusters
+          yaml: ./ceph.yaml
+          csi_integration: '["ceph", "ceph"]'
     env:
       TF_VAR_branch: ${{ github.head_ref }}
       TF_VAR_manifest_yaml: ${{ matrix.test.yaml }}
@@ -52,7 +57,7 @@ jobs:
         JUJU_CONTROLLER_ADDRESSES="$(juju show-controller | yq '.[$CONTROLLER]'.details.\"api-endpoints\" | tr -d "[]' "|tr -d '"'|tr -d '\n')"
         JUJU_USERNAME="$(cat ~/.local/share/juju/accounts.yaml | yq .controllers.$CONTROLLER.user|tr -d '"')"
         JUJU_PASSWORD="$(cat ~/.local/share/juju/accounts.yaml | yq .controllers.$CONTROLLER.password|tr -d '"')"
-
+        echo "::add-mask::$JUJU_PASSWORD"
         echo "JUJU_CONTROLLER_ADDRESSES=$JUJU_CONTROLLER_ADDRESSES" >> "$GITHUB_ENV"
         echo "JUJU_USERNAME=$JUJU_USERNAME" >> "$GITHUB_ENV"
         echo "JUJU_PASSWORD=$JUJU_PASSWORD" >> "$GITHUB_ENV"
@@ -61,7 +66,6 @@ jobs:
           juju show-controller $(echo $CONTROLLER|tr -d '"') | yq '.[$CONTROLLER]'.details.\"ca-cert\"|tr -d '"'
           echo EOF
         } >> "$GITHUB_ENV"
-
         sed -i "s#ref=[^&\"]*#ref=${{ github.head_ref }}#" ${{env.WORKING_DIR}}/test.tf
     - uses: hashicorp/setup-terraform@v3
     - run: terraform init

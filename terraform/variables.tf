@@ -20,13 +20,15 @@ variable "cloud_integration" {
 
 variable "csi_integration" {
   description = "Selection of a csi integration"
-  type        = string
-  default     = ""
+  type        = list(string)
+  default     = []
   nullable    = false
 
   validation {
-    condition = can(regex("^(|ceph)$", var.csi_integration))
-    error_message = "CSI must be one of '', or 'ceph'"
+    condition = alltrue([
+      for v in var.csi_integration : can(regex("^(|ceph)$", v))
+    ])
+    error_message = "Each item in 'csi_integration' must be either '' or 'ceph'."
   }
 }
 

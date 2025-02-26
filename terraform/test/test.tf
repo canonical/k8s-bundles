@@ -1,8 +1,8 @@
 module "k8s" {
-  source        = "git::https://github.com/canonical/k8s-bundles//terraform?ref=main" 
+  source        = "git::https://github.com/canonical/k8s-bundles//terraform?ref=main"
   model         = {
     name   = "my-canonical-k8s"
-    cloud  = "prod-k8s-openstack"
+    cloud  = "my-prod-cloud"
     config = {"test": true}
   }
   cloud_integration = var.cloud_integration
@@ -17,7 +17,7 @@ variable "cloud_integration" {
 
 variable "csi_integration" {
   description = "Selection of a csi integration."
-  type        = string
+  type        = list(string)
 }
 
 variable "manifest_yaml" {

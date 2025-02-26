@@ -47,10 +47,11 @@ module "openstack" {
 }
 
 module "ceph" {
-  count         = var.csi_integration == "ceph" ? 1 : 0
+  count         = length([for v in var.csi_integration : v if v == "ceph"])
   source        = "./ceph"
   model         = resource.juju_model.this.name
   manifest_yaml = var.manifest_yaml
+  index         = count.index
   k8s = {
     app_name = module.k8s.app_name
     config   = module.k8s_config.config
