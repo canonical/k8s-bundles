@@ -32,7 +32,15 @@ resource "juju_model" "this" {
 
   provisioner "local-exec" {
     # workaround for https://github.com/juju/terraform-provider-juju/issues/667
-    command = "juju model-config fan-config=''"
+    command = <<EOT
+    timeout 30s bash -c "
+      until juju model-config -m ${var.model.name} fan-config='' 2>/dev/null; do
+        echo \"Wait to set fan-config to empty on model=${var.model.name}\"
+        sleep 1
+      done
+    " || echo "ERROR: Timeout reached while waiting for fan-config update!" >&2
+    EOT
+    interpreter = ["bash", "-c"]
   }
 }
 
