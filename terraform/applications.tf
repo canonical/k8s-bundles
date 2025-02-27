@@ -2,9 +2,9 @@
 # See LICENSE file for licensing details.
 
 module "k8s" {
-  source   = "git::https://github.com/canonical/k8s-operator//charms/worker/k8s/terraform?ref=main"
-  app_name = module.k8s_config.config.app_name
-  channel  = module.k8s_config.config.channel
+  source      = "git::https://github.com/canonical/k8s-operator//charms/worker/k8s/terraform?ref=main"
+  app_name    = module.k8s_config.config.app_name
+  channel     = module.k8s_config.config.channel
   # This currently just sets the bootstrap-node-taints to have the right no schedule value
   # but more adjustments will need to be made to properly add this to bootstrap-node-taints
   # if that config value is set.
@@ -13,7 +13,7 @@ module "k8s" {
                   {"bootstrap-node-taints": "node-role.kubernetes.io/control-plane:NoSchedule"}
                 )
   constraints = module.k8s_config.config.constraints
-  model       = var.model
+  model       = resource.juju_model.this.name
   resources   = module.k8s_config.config.resources
   revision    = module.k8s_config.config.revision
   base        = module.k8s_config.config.base
@@ -27,7 +27,7 @@ module "k8s_worker" {
   constraints = coalesce(module.k8s_worker_config.config.constraints, module.k8s_config.config.constraints)
   channel     = coalesce(module.k8s_worker_config.config.channel,     module.k8s_config.config.channel)
   config      = module.k8s_worker_config.config.config
-  model       = var.model
+  model       = resource.juju_model.this.name
   resources   = module.k8s_worker_config.config.resources
   revision    = module.k8s_worker_config.config.revision
   units       = module.k8s_worker_config.config.units
@@ -36,7 +36,7 @@ module "k8s_worker" {
 module "openstack" {
   count         = var.cloud_integration == "openstack" ? 1 : 0
   source        = "./openstack"
-  model         = var.model
+  model         = resource.juju_model.this.name
   manifest_yaml = var.manifest_yaml
   k8s = {
     app_name = module.k8s.app_name
@@ -47,10 +47,11 @@ module "openstack" {
 }
 
 module "ceph" {
-  count         = var.csi_integration == "ceph" ? 1 : 0
+  count         = length([for v in var.csi_integration : v if v == "ceph"])
   source        = "./ceph"
-  model         = var.model
+  model         = resource.juju_model.this.name
   manifest_yaml = var.manifest_yaml
+  index         = count.index
   k8s = {
     app_name = module.k8s.app_name
     config   = module.k8s_config.config

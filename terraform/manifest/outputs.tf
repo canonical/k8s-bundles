@@ -8,7 +8,7 @@ output "config" {
     channel     = lookup(local.yaml_data, "channel", null)
     config      = lookup(local.yaml_data, "config", null)
     constraints = lookup(local.yaml_data, "constraints", null)
-    resources   = lookup(local.yaml_data, "resoruces", null)
+    resources   = lookup(local.yaml_data, "resources", null)
     revision    = lookup(local.yaml_data, "revision", null)
     units       = lookup(local.yaml_data, "units", null)
     storage     = lookup(local.yaml_data, "storage", null)
