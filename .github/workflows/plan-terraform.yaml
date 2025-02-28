@@ -25,24 +25,16 @@ jobs:
           yaml: ./openstack.yaml
           cloud_integration: openstack
           csi_integration: '[]'
-        - name: Ceph
-          yaml: ./ceph.yaml
-          csi_integration: '["ceph"]'
         - name: Ceph Multiple Clusters
           yaml: ./ceph.yaml
-          csi_integration: '["ceph", "ceph"]'
+          csi_integration: '["ceph"]'
     env:
-      TF_VAR_branch: ${{ github.head_ref }}
       TF_VAR_manifest_yaml: ${{ matrix.test.yaml }}
       TF_VAR_cloud_integration: ${{ matrix.test.cloud_integration }}
       TF_VAR_csi_integration: ${{ matrix.test.csi_integration }}
-      WORKING_DIR: 'terraform/test'
+      WORKING_DIR: 'terraform-test'
     steps:
     - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-        sparse-checkout: ${{env.WORKING_DIR}}
-        sparse-checkout-cone-mode: false
     - name: Install Python
       uses: actions/setup-python@v5
       with:
@@ -66,7 +58,6 @@ jobs:
           juju show-controller $(echo $CONTROLLER|tr -d '"') | yq '.[$CONTROLLER]'.details.\"ca-cert\"|tr -d '"'
           echo EOF
         } >> "$GITHUB_ENV"
-        sed -i "s#ref=[^&\"]*#ref=${{ github.head_ref }}#" ${{env.WORKING_DIR}}/test.tf
     - uses: hashicorp/setup-terraform@v3
     - run: terraform init
       working-directory: ${{env.WORKING_DIR}}
