@@ -1,5 +1,5 @@
 module "k8s" {
-  source        = "git::https://github.com/canonical/k8s-bundles//terraform?ref=main"
+  source        = "../terraform"
   model         = {
     name   = "my-canonical-k8s"
     cloud  = "my-prod-cloud"
@@ -23,4 +23,10 @@ variable "csi_integration" {
 variable "manifest_yaml" {
   description = "Absolute path to the manifest yaml file for the charm configurations."
   type        = string
+}
+
+output "debug" {
+  value = {
+    k8s = module.k8s.debug
+  }
 }

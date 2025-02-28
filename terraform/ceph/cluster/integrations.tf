@@ -15,13 +15,14 @@ resource "juju_integration" "ceph_client" {
 
 resource "juju_integration" "ceph_mon" {
   model = var.model
+  for_each = module.ceph_osd
   application {
     name     = module.ceph_mon.app_name
     endpoint = module.ceph_mon.provides.osd
   }
   application {
-    name     = module.ceph_osd.app_name
-    endpoint = module.ceph_osd.requires.mon
+    name     = each.value.app_name
+    endpoint = each.value.requires.mon
   }
 }
 

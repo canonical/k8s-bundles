@@ -45,37 +45,40 @@ resource "juju_model" "this" {
 }
 
 resource "juju_integration" "k8s_cluster_integration" {
-  model = resource.juju_model.this.name
+  model    = resource.juju_model.this.name
+  for_each = module.k8s_worker
   application {
     name      = module.k8s.app_name
     endpoint  = module.k8s.provides.k8s_cluster
   }
   application {
-    name      = module.k8s_worker.app_name
-    endpoint  = module.k8s_worker.requires.cluster
+    name      = each.value.app_name
+    endpoint  = each.value.requires.cluster
   }
 }
 
 resource "juju_integration" "k8s_containerd" {
   model = resource.juju_model.this.name
+  for_each = module.k8s_worker
   application {
     name      = module.k8s.app_name
     endpoint  = module.k8s.provides.containerd
   }
   application {
-    name      = module.k8s_worker.app_name
-    endpoint  = module.k8s_worker.requires.containerd
+    name      = each.value.app_name
+    endpoint  = each.value.requires.containerd
   }
 }
 
 resource "juju_integration" "k8s_cos_worker_tokens" {
   model = resource.juju_model.this.name
+  for_each = module.k8s_worker
   application {
     name      = module.k8s.app_name
     endpoint  = module.k8s.provides.cos_worker_tokens
   }
   application {
-    name      = module.k8s_worker.app_name
-    endpoint  = module.k8s_worker.requires.cos_tokens
+    name      = each.value.app_name
+    endpoint  = each.value.requires.cos_tokens
   }
 }

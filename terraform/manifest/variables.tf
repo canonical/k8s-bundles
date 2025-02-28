@@ -6,7 +6,7 @@ variable "manifest" {
   type        = string
 }
 
-variable "app" {
-  description = "Name of the application to load config for."
+variable "charm" {
+  description = "Name of the charm to load configs for."
   type        = string
 }
