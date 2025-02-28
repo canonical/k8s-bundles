@@ -32,7 +32,7 @@ module "k8s" {
   channel     = local.k8s_config.channel
   config      = merge(
     (
-      length(keys(module.k8s_worker_config)) > 0 ?  
+      length(keys(module.k8s_worker_config.config)) > 0 ?
       # if there are workers, control-planes are tainted with NoSchedule
       {"bootstrap-node-taints": "node-role.kubernetes.io/control-plane:NoSchedule"}:
       # if there are no-workers, control-planes cannot be tainted
