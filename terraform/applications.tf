@@ -30,15 +30,16 @@ module "k8s" {
   source      = "git::https://github.com/canonical/k8s-operator//charms/worker/k8s/terraform?ref=main"
   app_name    = local.k8s_config.app_name
   channel     = local.k8s_config.channel
-  # This currently just sets the bootstrap-node-taints to have the right no schedule value
-  # but more adjustments will need to be made to properly add this to bootstrap-node-taints
-  # if that config value is set.
   config      = merge(
-                  local.k8s_config.config,
-                  length(keys(module.k8s_worker_config)) > 0 ?
-                      {"bootstrap-node-taints": "node-role.kubernetes.io/control-plane:NoSchedule"}:
-                      {}
-                )
+    (
+      length(keys(module.k8s_worker_config)) > 0 ?  
+      # if there are workers, control-planes are tainted with NoSchedule
+      {"bootstrap-node-taints": "node-role.kubernetes.io/control-plane:NoSchedule"}:
+      # if there are no-workers, control-planes cannot be tainted
+      {}
+    ),
+    local.k8s_config.config,
+  )
   constraints = local.k8s_config.constraints
   model       = resource.juju_model.this.name
   resources   = local.k8s_config.resources

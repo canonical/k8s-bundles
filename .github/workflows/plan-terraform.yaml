@@ -18,15 +18,15 @@ jobs:
       matrix:
         test:
         - name: Vanilla
-          yaml: ./vanilla.yaml
+          yaml: ./manifest-vanilla.yaml
           cloud_integration: ''
           csi_integration: '[]'
         - name: Openstack
-          yaml: ./openstack.yaml
+          yaml: ./manifest-openstack.yaml
           cloud_integration: openstack
           csi_integration: '[]'
         - name: Ceph Multiple Clusters
-          yaml: ./ceph.yaml
+          yaml: ./manifest-ceph.yaml
           csi_integration: '["ceph"]'
     env:
       TF_VAR_manifest_yaml: ${{ matrix.test.yaml }}
