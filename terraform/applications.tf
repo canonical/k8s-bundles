@@ -38,11 +38,13 @@ module "openstack" {
   source        = "./openstack"
   model         = resource.juju_model.this.name
   manifest_yaml = var.manifest_yaml
-  k8s = {
-    app_name = module.k8s.app_name
-    config   = module.k8s_config.config
-    provides = module.k8s.provides
-    requires = module.k8s.requires
+  k8s           = {
+    app_name    = module.k8s.app_name
+    base        = module.k8s_config.config.base
+    constraints = module.k8s_config.config.constraints
+    channel     = module.k8s_config.config.channel
+    provides    = module.k8s.provides
+    requires    = module.k8s.requires
   }
 }
 
@@ -52,10 +54,12 @@ module "ceph" {
   model         = resource.juju_model.this.name
   manifest_yaml = var.manifest_yaml
   index         = count.index
-  k8s = {
-    app_name = module.k8s.app_name
-    config   = module.k8s_config.config
-    provides = module.k8s.provides
-    requires = module.k8s.requires
+  k8s           = {
+    app_name    = module.k8s.app_name
+    base        = module.k8s_config.config.base
+    constraints = module.k8s_config.config.constraints
+    channel     = module.k8s_config.config.channel
+    provides    = module.k8s.provides
+    requires    = module.k8s.requires
   }
 }

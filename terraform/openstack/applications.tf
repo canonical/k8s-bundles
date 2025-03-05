@@ -6,9 +6,9 @@ module "openstack_integrator" {
 
   model       = var.model
   app_name    = module.openstack_integrator_config.config.app_name
-  base        = coalesce(module.openstack_integrator_config.config.base, var.k8s.config.base)
-  constraints = coalesce(module.openstack_integrator_config.config.constraints, var.k8s.config.constraints)
-  channel     = coalesce(module.openstack_integrator_config.config.channel, var.k8s.config.channel)
+  base        = coalesce(module.openstack_integrator_config.config.base, var.k8s.base)
+  constraints = coalesce(module.openstack_integrator_config.config.constraints, var.k8s.constraints)
+  channel     = coalesce(module.openstack_integrator_config.config.channel, var.k8s.channel)
 
   config      = coalesce(module.openstack_integrator_config.config.config, {})
   resources   = module.openstack_integrator_config.config.resources
@@ -21,8 +21,8 @@ module "cinder_csi" {
 
   model       = var.model
   app_name    = module.cinder_csi_config.config.app_name
-  base        = coalesce(module.cinder_csi_config.config.base,        module.openstack_integrator_config.config.base,        var.k8s.config.base)
-  channel     = coalesce(module.cinder_csi_config.config.channel,     module.openstack_integrator_config.config.channel,     var.k8s.config.channel)
+  base        = coalesce(module.cinder_csi_config.config.base,        module.openstack_integrator_config.config.base,        var.k8s.base)
+  channel     = coalesce(module.cinder_csi_config.config.channel,     module.openstack_integrator_config.config.channel,     var.k8s.channel)
 
   config      = coalesce(module.cinder_csi_config.config.config, {})
   revision    = module.cinder_csi_config.config.revision
@@ -33,8 +33,8 @@ module "openstack_cloud_controller" {
 
   model       = var.model
   app_name    = module.openstack_cloud_controller_config.config.app_name
-  base        = coalesce(module.openstack_cloud_controller_config.config.base,        module.openstack_integrator_config.config.base,        var.k8s.config.base)
-  channel     = coalesce(module.openstack_cloud_controller_config.config.channel,     module.openstack_integrator_config.config.channel,     var.k8s.config.channel)
+  base        = coalesce(module.openstack_cloud_controller_config.config.base,        module.openstack_integrator_config.config.base,        var.k8s.base)
+  channel     = coalesce(module.openstack_cloud_controller_config.config.channel,     module.openstack_integrator_config.config.channel,     var.k8s.channel)
 
   config      = coalesce(module.openstack_cloud_controller_config.config.config, {})
   revision    = module.openstack_cloud_controller_config.config.revision

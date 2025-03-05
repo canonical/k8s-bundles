@@ -3,11 +3,13 @@ k8s:
   base: ubuntu@22.04
   constraints: arch=amd64 cores=2 mem=8192M root-disk=16384M
   channel: latest/edge
+  config: {}
 k8s_worker:
   units: 3
   base: ubuntu@22.04
   constraints: arch=amd64 cores=2 mem=8192M root-disk=16384M
   channel: latest/edge
+  config: {}
 ceph_csi-0:
   app_name: ceph-csi
   channel: latest/edge
