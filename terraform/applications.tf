@@ -1,36 +1,65 @@
 # Copyright 2024 Canonical Ltd.
 # See LICENSE file for licensing details.
 
+locals {
+  _k8s_keys = keys(module.k8s_config.config)
+  _k8s_key_count = length(local._k8s_keys)
+  k8s_config = local._k8s_key_count == 1 ? module.k8s_config.config[local._k8s_keys[0]] : null
+}
+
+resource "null_resource" "validate_unique_k8s" {
+  count = local._k8s_key_count == 1 ? 0 : 1
+
+  provisioner "local-exec" {
+    command = <<EOT
+      >&2 echo "ERROR: Expected exactly 1 k8s entry, but got ${local._k8s_keys}"
+      exit 1
+    EOT
+  }
+}
+
+output "debug" {
+  value = {
+    k8s_config = local.k8s_config
+    ceph = [for ceph in module.ceph: ceph.debug]
+    openstack = [for openstack in module.openstack: openstack.debug]
+  }
+}
+
 module "k8s" {
   source      = "git::https://github.com/canonical/k8s-operator//charms/worker/k8s/terraform?ref=main"
-  app_name    = module.k8s_config.config.app_name
-  channel     = module.k8s_config.config.channel
-  # This currently just sets the bootstrap-node-taints to have the right no schedule value
-  # but more adjustments will need to be made to properly add this to bootstrap-node-taints
-  # if that config value is set.
+  app_name    = local.k8s_config.app_name
+  channel     = local.k8s_config.channel
   config      = merge(
-                  module.k8s_config.config.config,
-                  {"bootstrap-node-taints": "node-role.kubernetes.io/control-plane:NoSchedule"}
-                )
-  constraints = module.k8s_config.config.constraints
+    (
+      length(keys(module.k8s_worker_config.config)) > 0 ?
+      # if there are workers, control-planes are tainted with NoSchedule
+      {"bootstrap-node-taints": "node-role.kubernetes.io/control-plane:NoSchedule"}:
+      # if there are no-workers, control-planes cannot be tainted
+      {}
+    ),
+    local.k8s_config.config,
+  )
+  constraints = local.k8s_config.constraints
   model       = resource.juju_model.this.name
-  resources   = module.k8s_config.config.resources
-  revision    = module.k8s_config.config.revision
-  base        = module.k8s_config.config.base
-  units       = module.k8s_config.config.units
+  resources   = local.k8s_config.resources
+  revision    = local.k8s_config.revision
+  base        = local.k8s_config.base
+  units       = local.k8s_config.units
 }
 
 module "k8s_worker" {
   source      = "git::https://github.com/canonical/k8s-operator//charms/worker/terraform?ref=main"
-  app_name    = module.k8s_worker_config.config.app_name
-  base        = coalesce(module.k8s_worker_config.config.base,        module.k8s_config.config.base)
-  constraints = coalesce(module.k8s_worker_config.config.constraints, module.k8s_config.config.constraints)
-  channel     = coalesce(module.k8s_worker_config.config.channel,     module.k8s_config.config.channel)
-  config      = module.k8s_worker_config.config.config
+  for_each    = module.k8s_worker_config.config
+  app_name    = each.value.app_name
+  base        = coalesce(each.value.base,        local.k8s_config.base)
+  constraints = coalesce(each.value.constraints, local.k8s_config.constraints)
+  channel     = coalesce(each.value.channel,     local.k8s_config.channel)
+  config      = each.value.config
   model       = resource.juju_model.this.name
-  resources   = module.k8s_worker_config.config.resources
-  revision    = module.k8s_worker_config.config.revision
-  units       = module.k8s_worker_config.config.units
+  resources   = each.value.resources
+  revision    = each.value.revision
+  units       = each.value.units
 }
 
 module "openstack" {
@@ -40,7 +69,7 @@ module "openstack" {
   manifest_yaml = var.manifest_yaml
   k8s = {
     app_name = module.k8s.app_name
-    config   = module.k8s_config.config
+    config   = local.k8s_config
     provides = module.k8s.provides
     requires = module.k8s.requires
   }
@@ -51,10 +80,9 @@ module "ceph" {
   source        = "./ceph"
   model         = resource.juju_model.this.name
   manifest_yaml = var.manifest_yaml
-  index         = count.index
   k8s = {
     app_name = module.k8s.app_name
-    config   = module.k8s_config.config
+    config   = local.k8s_config
     provides = module.k8s.provides
     requires = module.k8s.requires
   }
