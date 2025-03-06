@@ -11,11 +11,6 @@ variable "model" {
   type        = string
 }
 
-variable "index" {
-  description = "Index of the ceph-applications"
-  type        = number
-}
-
 variable "k8s" {
   description = "K8s application object"
   type = object({

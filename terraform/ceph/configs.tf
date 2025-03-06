@@ -4,17 +4,17 @@
 module "ceph_mon_config" {
   source   = "../manifest/"
   manifest = var.manifest_yaml
-  app      = "ceph_mon-${var.index}"
+  charm    = "ceph-mon"
 }
 
 module "ceph_osd_config" {
   source   = "../manifest/"
   manifest = var.manifest_yaml
-  app      = "ceph_osd-${var.index}"
+  charm    = "ceph-osd"
 }
 
 module "ceph_csi_config" {
   source   = "../manifest/"
   manifest = var.manifest_yaml
-  app      = "ceph_csi-${var.index}"
+  charm    = "ceph-csi"
 }
