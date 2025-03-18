@@ -13,8 +13,8 @@ variable "cloud_integration" {
   nullable    = false
 
   validation {
-    condition = can(regex("^(|openstack)$", var.cloud_integration))
-    error_message = "Cloud integration must be one of: '', openstack."
+    condition = can(regex("^(|openstack|aws)$", var.cloud_integration))
+    error_message = "Cloud integration unsupported. Try: '', 'aws', or 'openstack'"
   }
 }
 
