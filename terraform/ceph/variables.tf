@@ -13,7 +13,7 @@ variable "model" {
 
 variable "k8s" {
   description = "K8s application object"
-  type        = object({
+  type = object({
     app_name    = string
     base        = string
     constraints = string

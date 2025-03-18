@@ -18,19 +18,24 @@ jobs:
       matrix:
         test:
         - name: AWS
-          yaml: test/aws.yaml
+          yaml: ./manifest-aws.yaml
           cloud_integration: aws
-        - name: Openstack
-          yaml: test/openstack.yaml
-          cloud_integration: openstack
         - name: Vanilla
-          yaml: test/vanilla.yaml
+          yaml: ./manifest-vanilla.yaml
           cloud_integration: ''
+          csi_integration: '[]'
+        - name: Openstack
+          yaml: ./manifest-openstack.yaml
+          cloud_integration: openstack
+          csi_integration: '[]'
+        - name: Ceph Multiple Clusters
+          yaml: ./manifest-ceph.yaml
+          csi_integration: '["ceph"]'
     env:
-      TF_VAR_model: test
       TF_VAR_manifest_yaml: ${{ matrix.test.yaml }}
       TF_VAR_cloud_integration: ${{ matrix.test.cloud_integration }}
-      WORKING_DIR: 'terraform'
+      TF_VAR_csi_integration: ${{ matrix.test.csi_integration }}
+      WORKING_DIR: 'terraform-test'
     steps:
     - uses: actions/checkout@v4
     - name: Install Python
@@ -40,14 +45,14 @@ jobs:
     - uses: charmed-kubernetes/actions-operator@main
       with:
         provider: lxd
-        channel: latest/stable        
+        channel: latest/stable
     - name: Prepare juju tf provider environment
       run: |
         CONTROLLER=$(juju whoami | yq .Controller)
         JUJU_CONTROLLER_ADDRESSES="$(juju show-controller | yq '.[$CONTROLLER]'.details.\"api-endpoints\" | tr -d "[]' "|tr -d '"'|tr -d '\n')"
         JUJU_USERNAME="$(cat ~/.local/share/juju/accounts.yaml | yq .controllers.$CONTROLLER.user|tr -d '"')"
         JUJU_PASSWORD="$(cat ~/.local/share/juju/accounts.yaml | yq .controllers.$CONTROLLER.password|tr -d '"')"
-
+        echo "::add-mask::$JUJU_PASSWORD"
         echo "JUJU_CONTROLLER_ADDRESSES=$JUJU_CONTROLLER_ADDRESSES" >> "$GITHUB_ENV"
         echo "JUJU_USERNAME=$JUJU_USERNAME" >> "$GITHUB_ENV"
         echo "JUJU_PASSWORD=$JUJU_PASSWORD" >> "$GITHUB_ENV"
