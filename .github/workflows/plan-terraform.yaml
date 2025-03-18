@@ -20,6 +20,7 @@ jobs:
         - name: AWS
           yaml: ./manifest-aws.yaml
           cloud_integration: aws
+          csi_integration: '[]'
         - name: Vanilla
           yaml: ./manifest-vanilla.yaml
           cloud_integration: ''

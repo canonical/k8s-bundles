@@ -18,9 +18,9 @@ resource "null_resource" "validate_all_apps_unique" {
   provisioner "local-exec" {
     command = <<EOT
       >&2 echo "ERROR: Expected exactly 1 entry for each application"
-      >&2 echo "  openstack_integrator: ${local._integrator_keys}"
-      >&2 echo "  cinder_csi: ${local._cinder_keys}"
-      >&2 echo "  openstack_cloud_controller: ${local._cloud_controller_keys}"
+      >&2 echo "  openstack-integrator: ${local._integrator_keys}"
+      >&2 echo "  cinder-csi: ${local._cinder_keys}"
+      >&2 echo "  openstack-cloud-controller: ${local._cloud_controller_keys}"
       exit 1
     EOT
   }
@@ -33,8 +33,6 @@ output "debug" {
     cloud_controller_config = local.cloud_controller_config
   }
 }
-
-
 
 module "openstack_integrator" {
   source      = "git::https://github.com/charmed-kubernetes/charm-openstack-integrator//terraform?ref=main"

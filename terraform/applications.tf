@@ -80,13 +80,15 @@ module "openstack" {
 module "aws" {
   count           = var.cloud_integration == "aws" ? 1 : 0
   source          = "./aws"
-  model           = var.model
+  model           = resource.juju_model.this.name
   manifest_yaml   = var.manifest_yaml
   k8s             = {
-    app_name   = module.k8s.app_name
-    config     = module.k8s_config.config
-    provides   = module.k8s.provides
-    requires   = module.k8s.requires
+    app_name    = module.k8s.app_name
+    base        = local.k8s_config.base
+    constraints = local.k8s_config.constraints
+    channel     = local.k8s_config.channel
+    provides    = module.k8s.provides
+    requires    = module.k8s.requires
   }
 }
 
