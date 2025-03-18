@@ -25,9 +25,9 @@ module "ceph_mon" {
   source      = "git::https://github.com/canonical/ceph-charms//ceph-mon/terraform?ref=main"
   model       = var.model
   app_name    = local.mon_config.app_name
-  base        = coalesce(local.mon_config.base, var.k8s.config.base)
-  constraints = coalesce(local.mon_config.constraints, var.k8s.config.constraints)
-  channel     = coalesce(local.mon_config.channel, var.k8s.config.channel)
+  base        = coalesce(local.mon_config.base, var.k8s.base)
+  constraints = coalesce(local.mon_config.constraints, var.k8s.constraints)
+  channel     = coalesce(local.mon_config.channel, var.k8s.channel)
 
   config    = coalesce(local.mon_config.config, {})
   resources = local.mon_config.resources
@@ -41,9 +41,9 @@ module "ceph_osd" {
 
   model       = var.model
   app_name    = each.value.app_name
-  base        = coalesce(each.value.base, var.k8s.config.base)
-  constraints = coalesce(each.value.constraints, var.k8s.config.constraints)
-  channel     = coalesce(each.value.channel, var.k8s.config.channel)
+  base        = coalesce(each.value.base, var.k8s.base)
+  constraints = coalesce(each.value.constraints, var.k8s.constraints)
+  channel     = coalesce(each.value.channel, var.k8s.channel)
 
   config    = coalesce(each.value.config, {})
   resources = each.value.resources
@@ -58,7 +58,7 @@ module "ceph_csi" {
   app_name = local.csi_config.app_name
   base     = local.csi_config.base
   constraints = local.csi_config.constraints
-  channel  = coalesce(local.csi_config.channel, var.k8s.config.channel)
+  channel  = coalesce(local.csi_config.channel, var.k8s.channel)
 
   config      = coalesce(local.csi_config.config, {})
   revision    = local.csi_config.revision

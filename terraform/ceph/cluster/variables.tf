@@ -29,9 +29,11 @@ variable "model" {
 variable "k8s" {
   description = "K8s application object"
   type = object({
-    app_name = string
-    config   = map(string)
-    provides = map(string)
-    requires = map(string)
+    app_name    = string
+    base        = string
+    constraints = string
+    channel     = string
+    provides    = map(string)
+    requires    = map(string)
   })
 }
