@@ -4,11 +4,11 @@
 module "k8s_config" {
   source = "./manifest/"
   manifest = var.manifest_yaml
-  charm = "k8s"
+  app = "k8s"
 }
 
 module "k8s_worker_config" {
   source = "./manifest/"
   manifest = var.manifest_yaml
-  charm = "k8s_worker"
+  app = "k8s_worker"
 }
