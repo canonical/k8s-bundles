@@ -32,7 +32,7 @@ Add the following to your main.tf for the canonical k8s solution:
 
 ```
 module "k8s" {
-  source        = "git::https://github.com/canonical/k8s-bundles//terraform?ref=main" 
+  source        = "git::https://github.com/canonical/k8s-bundles//terraform?ref=release-1.32" 
   model         = "my-canonical-k8s"
   manifest_yaml = "/path/to/manifest.yaml"
 }
