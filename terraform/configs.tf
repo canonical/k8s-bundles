@@ -2,13 +2,13 @@
 # See LICENSE file for licensing details.
 
 module "k8s_config" {
-  source = "git::https://github.com/canonical/k8s-bundles//terraform/manifest?ref=main"
+  source = "./manifest/"
   manifest = var.manifest_yaml
   app = "k8s"
 }
 
 module "k8s_worker_config" {
-  source = "git::https://github.com/canonical/k8s-bundles//terraform/manifest?ref=main"
+  source = "./manifest/"
   manifest = var.manifest_yaml
   app = "k8s_worker"
 }

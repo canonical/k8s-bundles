@@ -2,12 +2,12 @@ k8s:
     units: 3
     base: ubuntu@24.04
     constraints: arch=amd64 cores=2 mem=8G root-disk=16G
-    channel: 1.32/candidate
+    channel: 1.32/stable
 k8s_worker:
     units: 3
     base: ubuntu@24.04
     constraints: arch=amd64 cores=2 mem=8G root-disk=16G
-    channel: 1.32/candidate
+    channel: 1.32/stable
 openstack_integrator:
     channel: 1.32/beta
     base: ubuntu@22.04

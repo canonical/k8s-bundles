@@ -41,7 +41,7 @@ manifest, then the module will return `null` and terraform will ignore the confi
 
 ```
 module "k8s_config" {
-  source = "git::https://github.com/canonical/k8s-bundles//terraform/manifest?ref=main"
+  source = "git::https://github.com/canonical/k8s-bundles//terraform/manifest?ref=release-1.32"
   manifest = var.manifest_yaml
   app = "k8s_worker"
 }
@@ -51,7 +51,7 @@ These values can the be passed into a resource for a specific charm:
 
 ```
 module "k8s_worker" {
-  source      = "git::https://github.com/canonical/k8s-operator//charms/worker/terraform?ref=main"
+  source      = "git::https://github.com/canonical/k8s-operator//charms/worker/terraform?ref=release-1.32"
   app_name    = module.k8s_worker_config.config.app_name
   channel     = module.k8s_worker_config.config.channel 
   config      = module.k8s_worker_config.config.config
