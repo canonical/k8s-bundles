@@ -194,7 +194,7 @@ k8s:
   units: 1
   base: ubuntu@22.04
   constraints: arch=amd64 cores=2 mem=8192M root-disk=16384M
-  channel: latest/edge
+  channel: 1.33/stable
 
 ceph-csi:
   csi_integration: ceph
@@ -254,7 +254,7 @@ k8s:
   units: 1
   base: ubuntu@22.04
   constraints: arch=amd64 cores=2 mem=8192M root-disk=16384M
-  channel: latest/edge
+  channel: 1.33/stable
 
 # Snipped ... apps from the first cluster
 

@@ -75,12 +75,12 @@ k8s:
     units: 3
     base: ubuntu@24.04
     constraints: arch=amd64 cores=2 mem=8G root-disk=16G
-    channel: latest/edge
+    channel: 1.33/stable
 k8s_worker:
     units: 3
     base: ubuntu@24.04
     constraints: arch=amd64 cores=2 mem=8G root-disk=16G
-    channel: latest/edge
+    channel: 1.33/stable
 ```
 
 Using the terraform in the above section, the `units`, `base`, `constraints`, and `channel`

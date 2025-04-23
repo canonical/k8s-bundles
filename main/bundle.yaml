@@ -14,7 +14,7 @@ series: noble
 applications:
   k8s:
     charm: k8s
-    channel: latest/edge
+    channel: 1.33/stable
     num_units: 3
     constraints: cpu-cores=2 mem=8G root-disk=32G
     options:
@@ -22,7 +22,7 @@ applications:
         node-role.kubernetes.io/control-plane:NoSchedule
   k8s-worker:
     charm: k8s-worker
-    channel: latest/edge
+    channel: 1.33/stable
     num_units: 3
     constraints: cpu-cores=2 mem=8G root-disk=32G
 relations:
