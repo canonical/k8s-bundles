@@ -81,12 +81,12 @@ k8s:
   units: 3
   base: ubuntu@24.04
   constraints: arch=amd64 cores=2 mem=4096M root-disk=16384M
-  channel: 1.32/stable
+  channel: 1.33/stable
 k8s-worker:
   units: 2
   base: ubuntu@24.04
   constraints: arch=amd64 cores=2 mem=8192M root-disk=16384M
-  channel: 1.32/stable
+  channel: 1.33/stable
 ```
 
 Run a plan to ensure everything look correct:
@@ -113,19 +113,19 @@ k8s:
   units: 3
   base: ubuntu@24.04
   constraints: arch=amd64 cores=2 mem=4096M root-disk=16384M
-  channel: 1.32/stable
+  channel: 1.33/stable
 k8s-worker-noble:
   charm: k8s-worker
   units: 1
   base: ubuntu@24.04
   constraints: arch=amd64 cores=2 mem=8192M root-disk=16384M
-  channel: 1.32/stable
+  channel: 1.33/stable
 k8s-worker-jammy:
   charm: k8s-worker
   units: 1
   base: ubuntu@22.04
   constraints: arch=amd64 cores=2 mem=8192M root-disk=16384M
-  channel: 1.32/stable
+  channel: 1.33/stable
 ```
 
 
@@ -138,7 +138,7 @@ k8s:
   units: 1
   base: ubuntu@24.04
   constraints: arch=amd64 cores=2 mem=4096M root-disk=16384M
-  channel: 1.32/stable
+  channel: 1.33/stable
 ```
 
 ### A cloud integrated cluster
@@ -154,7 +154,7 @@ k8s:
   units: 1
   base: ubuntu@24.04
   constraints: arch=amd64 cores=2 mem=4096M root-disk=16384M
-  channel: 1.32/stable
+  channel: 1.33/stable
 openstack-integrator:
   channel: latest/stable
   base: ubuntu@22.04
