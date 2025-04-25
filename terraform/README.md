@@ -58,7 +58,7 @@ Add the following to your `main.tf` for the canonical k8s solution:
 
 ```hcl
 module "k8s" {
-  source        = "git::https://github.com/canonical/k8s-bundles//terraform?ref=main" 
+  source        = "git::https://github.com/canonical/k8s-bundles//terraform?ref=release-1.33" 
   model         = {
     name = "my-canonical-k8s"
     cloud = "prod-example-openstack"
@@ -166,7 +166,7 @@ To use this cloud-integration, update your `main.tf`
 
 ```hcl
 module "k8s" {
-  source        = "git::https://github.com/canonical/k8s-bundles//terraform?ref=main" 
+  source        = "git::https://github.com/canonical/k8s-bundles//terraform?ref=release-1.33" 
   model         = {
     name  = "my-canonical-k8s"
     cloud = "prod-example-openstack"
@@ -227,7 +227,7 @@ to use this, add a `csi_integration` field to your top-level main.tf
 
 ```hcl
 module "k8s" {
-  source        = "git::https://github.com/canonical/k8s-bundles//terraform?ref=main" 
+  source        = "git::https://github.com/canonical/k8s-bundles//terraform?ref=release-1.33" 
   model         = {
     name  = "my-canonical-k8s"
     cloud = "prod-example-openstack"

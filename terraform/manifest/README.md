@@ -52,7 +52,7 @@ These values can the be passed into a resource for a specific charm:
 
 ```
 module "k8s_worker" {
-  source      = "git::https://github.com/canonical/k8s-operator//charms/worker/terraform?ref=main"
+  source      = "git::https://github.com/canonical/k8s-operator//charms/worker/terraform?ref=release-1.33"
   app_name    = module.k8s_worker_config.config.app_name
   channel     = module.k8s_worker_config.config.channel
   config      = module.k8s_worker_config.config.config

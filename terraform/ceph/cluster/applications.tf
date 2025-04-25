@@ -53,7 +53,7 @@ module "ceph_osd" {
 }
 
 module "ceph_csi" {
-  source = "git::https://github.com/charmed-kubernetes/ceph-csi-operator//terraform?ref=main"
+  source = "git::https://github.com/charmed-kubernetes/ceph-csi-operator//terraform?ref=release_1.33"
   model    = var.model
   app_name = local.csi_config.app_name
   base     = local.csi_config.base
