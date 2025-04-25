@@ -27,7 +27,7 @@ output "debug" {
 }
 
 module "k8s" {
-  source      = "git::https://github.com/canonical/k8s-operator//charms/worker/k8s/terraform?ref=main"
+  source      = "git::https://github.com/canonical/k8s-operator//charms/worker/k8s/terraform?ref=release-1.33"
   app_name    = local.k8s_config.app_name
   channel     = local.k8s_config.channel
   config      = merge(
@@ -49,7 +49,7 @@ module "k8s" {
 }
 
 module "k8s_worker" {
-  source      = "git::https://github.com/canonical/k8s-operator//charms/worker/terraform?ref=main"
+  source      = "git::https://github.com/canonical/k8s-operator//charms/worker/terraform?ref=release-1.33"
   for_each    = module.k8s_worker_config.config
   app_name    = each.value.app_name
   base        = coalesce(each.value.base,        local.k8s_config.base)

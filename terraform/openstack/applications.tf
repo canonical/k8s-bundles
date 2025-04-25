@@ -37,7 +37,7 @@ output "debug" {
 
 
 module "openstack_integrator" {
-  source      = "git::https://github.com/charmed-kubernetes/charm-openstack-integrator//terraform?ref=main"
+  source      = "git::https://github.com/charmed-kubernetes/charm-openstack-integrator//terraform?ref=release_1.33"
 
   model       = var.model
   app_name    = local.integrator_config.app_name
@@ -52,7 +52,7 @@ module "openstack_integrator" {
 }
 
 module "cinder_csi" {
-  source      = "git::https://github.com/canonical/cinder-csi-operator//terraform?ref=main"
+  source      = "git::https://github.com/charmed-kubernetes/cinder-csi-operator//terraform?ref=release_1.33"
 
   model       = var.model
   app_name    = local.cinder_csi_config.app_name
@@ -71,7 +71,7 @@ module "cinder_csi" {
 }
 
 module "openstack_cloud_controller" {
-  source      = "git::https://github.com/charmed-kubernetes/openstack-cloud-controller-operator//terraform?ref=main"
+  source      = "git::https://github.com/charmed-kubernetes/openstack-cloud-controller-operator//terraform?ref=release_1.33"
 
   model       = var.model
   app_name    = local.cloud_controller_config.app_name

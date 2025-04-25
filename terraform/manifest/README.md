@@ -52,7 +52,7 @@ These values can the be passed into a resource for a specific charm:
 
 ```
 module "k8s_worker" {
-  source      = "git::https://github.com/canonical/k8s-operator//charms/worker/terraform?ref=main"
+  source      = "git::https://github.com/canonical/k8s-operator//charms/worker/terraform?ref=release-1.33"
   app_name    = module.k8s_worker_config.config.app_name
   channel     = module.k8s_worker_config.config.channel
   config      = module.k8s_worker_config.config.config
@@ -75,12 +75,12 @@ k8s:
     units: 3
     base: ubuntu@24.04
     constraints: arch=amd64 cores=2 mem=8G root-disk=16G
-    channel: latest/edge
+    channel: 1.33/stable
 k8s_worker:
     units: 3
     base: ubuntu@24.04
     constraints: arch=amd64 cores=2 mem=8G root-disk=16G
-    channel: latest/edge
+    channel: 1.33/stable
 ```
 
 Using the terraform in the above section, the `units`, `base`, `constraints`, and `channel`

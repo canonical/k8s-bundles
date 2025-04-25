@@ -58,7 +58,7 @@ Add the following to your `main.tf` for the canonical k8s solution:
 
 ```hcl
 module "k8s" {
-  source        = "git::https://github.com/canonical/k8s-bundles//terraform?ref=main" 
+  source        = "git::https://github.com/canonical/k8s-bundles//terraform?ref=release-1.33" 
   model         = {
     name = "my-canonical-k8s"
     cloud = "prod-example-openstack"
@@ -81,12 +81,12 @@ k8s:
   units: 3
   base: ubuntu@24.04
   constraints: arch=amd64 cores=2 mem=4096M root-disk=16384M
-  channel: 1.32/stable
+  channel: 1.33/stable
 k8s-worker:
   units: 2
   base: ubuntu@24.04
   constraints: arch=amd64 cores=2 mem=8192M root-disk=16384M
-  channel: 1.32/stable
+  channel: 1.33/stable
 ```
 
 Run a plan to ensure everything look correct:
@@ -113,19 +113,19 @@ k8s:
   units: 3
   base: ubuntu@24.04
   constraints: arch=amd64 cores=2 mem=4096M root-disk=16384M
-  channel: 1.32/stable
+  channel: 1.33/stable
 k8s-worker-noble:
   charm: k8s-worker
   units: 1
   base: ubuntu@24.04
   constraints: arch=amd64 cores=2 mem=8192M root-disk=16384M
-  channel: 1.32/stable
+  channel: 1.33/stable
 k8s-worker-jammy:
   charm: k8s-worker
   units: 1
   base: ubuntu@22.04
   constraints: arch=amd64 cores=2 mem=8192M root-disk=16384M
-  channel: 1.32/stable
+  channel: 1.33/stable
 ```
 
 
@@ -138,7 +138,7 @@ k8s:
   units: 1
   base: ubuntu@24.04
   constraints: arch=amd64 cores=2 mem=4096M root-disk=16384M
-  channel: 1.32/stable
+  channel: 1.33/stable
 ```
 
 ### A cloud integrated cluster
@@ -154,7 +154,7 @@ k8s:
   units: 1
   base: ubuntu@24.04
   constraints: arch=amd64 cores=2 mem=4096M root-disk=16384M
-  channel: 1.32/stable
+  channel: 1.33/stable
 openstack-integrator:
   channel: latest/stable
   base: ubuntu@22.04
@@ -166,7 +166,7 @@ To use this cloud-integration, update your `main.tf`
 
 ```hcl
 module "k8s" {
-  source        = "git::https://github.com/canonical/k8s-bundles//terraform?ref=main" 
+  source        = "git::https://github.com/canonical/k8s-bundles//terraform?ref=release-1.33" 
   model         = {
     name  = "my-canonical-k8s"
     cloud = "prod-example-openstack"
@@ -194,7 +194,7 @@ k8s:
   units: 1
   base: ubuntu@22.04
   constraints: arch=amd64 cores=2 mem=8192M root-disk=16384M
-  channel: latest/edge
+  channel: 1.33/stable
 
 ceph-csi:
   csi_integration: ceph
@@ -227,7 +227,7 @@ to use this, add a `csi_integration` field to your top-level main.tf
 
 ```hcl
 module "k8s" {
-  source        = "git::https://github.com/canonical/k8s-bundles//terraform?ref=main" 
+  source        = "git::https://github.com/canonical/k8s-bundles//terraform?ref=release-1.33" 
   model         = {
     name  = "my-canonical-k8s"
     cloud = "prod-example-openstack"
@@ -254,7 +254,7 @@ k8s:
   units: 1
   base: ubuntu@22.04
   constraints: arch=amd64 cores=2 mem=8192M root-disk=16384M
-  channel: latest/edge
+  channel: 1.33/stable
 
 # Snipped ... apps from the first cluster
 
