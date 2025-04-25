@@ -52,7 +52,7 @@ module "openstack_integrator" {
 }
 
 module "cinder_csi" {
-  source      = "git::https://github.com/canonical/charmed-kubernetes//terraform?ref=release_1.33"
+  source      = "git::https://github.com/charmed-kubernetes/cinder-csi-operator///terraform?ref=release_1.33"
 
   model       = var.model
   app_name    = local.cinder_csi_config.app_name
