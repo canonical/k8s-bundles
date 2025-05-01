@@ -9,7 +9,7 @@ k8s-worker:
   constraints: arch=amd64 cores=2 mem=8G root-disk=16G
   channel: latest/edge
 aws-integrator:
-  channel: 1.31/stable
-  base: ubuntu@22.04
+  channel: 1.32/stable
+  base: ubuntu@24.04
 aws-k8s-storage: {}
 aws-cloud-provider: {}

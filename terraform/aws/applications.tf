@@ -8,7 +8,7 @@ locals {
   _max_key_count         = max(length(local._integrator_keys), length(local._storage_keys), length(local._cloud_controller_keys))
 
   integrator_config = local._max_key_count == 1 ? module.aws_integrator_config.config[local._integrator_keys[0]] : null
-  storage_config = local._max_key_count == 1 ? module.aws_k8s_storage_config.config[local._storage_keys[0]] : null
+  storage = local._max_key_count == 1 ? module.aws_k8s_storage_config.config[local._storage_keys[0]] : null
   cloud_controller_config = local._max_key_count == 1 ? module.aws_cloud_provider_config.config[local._cloud_controller_keys[0]] : null
 }
 
@@ -29,7 +29,7 @@ resource "null_resource" "validate_all_apps_unique" {
 output "debug" {
   value = {
     integrator_config = local.integrator_config
-    storage_config = local.storage_config
+    storage_config = local.storage
     cloud_controller_config = local.cloud_controller_config
   }
 }
@@ -53,19 +53,19 @@ module "aws_k8s_storage" {
   source      = "git::https://github.com/charmed-kubernetes/aws-k8s-storage//terraform?ref=main"
 
   model       = var.model
-  app_name    = local.storage_config.app_name
+  app_name    = local.storage.app_name
   base        = coalesce(
-    local.storage_config.base,
+    local.storage.base,
     local.integrator_config.base,
     var.k8s.base
   )
   channel     = coalesce(
-    local.storage_config.channel,
+    local.storage.channel,
     local.integrator_config.channel,
     var.k8s.channel
   )
-  config      = coalesce(local.storage_config.config, {})
-  revision    = local.storage_config.revision
+  config      = coalesce(local.storage.config, {})
+  revision    = local.storage.revision
 }
 
 module "aws_cloud_provider" {

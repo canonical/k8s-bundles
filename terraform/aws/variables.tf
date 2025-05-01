@@ -20,6 +20,5 @@ variable "k8s" {
     channel     = string
     provides    = map(string)
     requires    = map(string)
-
   })
 }

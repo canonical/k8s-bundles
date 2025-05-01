@@ -25,21 +25,6 @@ resource "juju_integration" "cloud_controller_openstack_client" {
   }
 }
 
-
-# Depends on https://github.com/canonical/k8s-operator/pull/234
-#resource "juju_integration" "k8s_api_loadbalancer" {
-#  model = var.model
-#  application {
-#    name      = module.openstack_integrator.app_name
-#    endpoint  = module.openstack_integrator.provides.lb_consumers
-#  }
-#  application {
-#    name      = var.k8s.app_name
-#    endpoint  = var.k8s.requires.external_load_balancer
-#  }
-#}
-
-
 resource "juju_integration" "external_cloud_provider" {
   model = var.model
   application {
