@@ -12,6 +12,7 @@ locals {
     revision    = null
     units       = null
     storage     = null
+    expose      = null
   }
   yaml_data = {
     for app, obj in local.full_map : app => merge({app_name = app}, local.default_config, obj)
