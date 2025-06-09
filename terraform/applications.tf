@@ -27,7 +27,7 @@ output "debug" {
 }
 
 module "k8s" {
-  source      = "git::https://github.com/canonical/k8s-operator//charms/worker/k8s/terraform?ref=main"
+  source      = "git::https://github.com/rpbritton/k8s-operator//charms/worker/k8s/terraform?ref=main"
   app_name    = local.k8s_config.app_name
   channel     = local.k8s_config.channel
   config      = merge(
