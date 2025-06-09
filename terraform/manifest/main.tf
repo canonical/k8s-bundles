@@ -27,8 +27,12 @@ locals {
           k if contains(keys(obj.expose), k) && obj.expose[k] != null
         ]) == 0 ? null :
 
-        # Otherwise, return the expose data
-        obj.expose
+        # Filter the expose data to only include allowed keys
+        # and ensure that no null values are included
+        {
+          for k, v in obj.expose : k => v
+          if contains(local._allowed_exposed, k) && v != null
+        }
       )
     }
   }
