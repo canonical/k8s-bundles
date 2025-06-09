@@ -13,8 +13,23 @@ locals {
     units       = null
     storage     = null
   }
+  expose_data = {
+    for app, obj in local.full_map: app => merge(
+      {
+        cidrs = null,
+        endpoints = null,
+        spaces = null,
+      },
+      lookup(obj, "expose", {})
+    )
+  }
   yaml_data = {
-    for app, obj in local.full_map : app => merge({app_name = app}, local.default_config, obj)
+    for app, obj in local.full_map : app => merge(
+      {app_name = app},
+      local.default_config,
+      obj,
+      {expose = local.expose_data[app]}
+    )
     if (
       obj != null &&
       (app == var.charm || lookup(obj, "charm", null) == var.charm) &&

@@ -4,7 +4,7 @@
 
 This is a module for deploying Canonical k8s using terraform. It uses
 a manifest file to pass configuration for the charms forward into the
-charm configuration. 
+charm configuration.
 
 ## TODO
 - [  ] Set outputs for each charm deployed
@@ -58,9 +58,9 @@ Add the following to your `main.tf` for the canonical k8s solution:
 
 ```hcl
 module "k8s" {
-  source        = "git::https://github.com/canonical/k8s-bundles//terraform?ref=main" 
+  source        = "git::https://github.com/canonical/k8s-bundles//terraform?ref=main"
   model         = {
-    name = "my-canonical-k8s"
+    name  = "my-canonical-k8s"
     cloud = "prod-example-openstack"
   }
   manifest_yaml = "/path/to/manifest.yaml"
@@ -69,9 +69,9 @@ module "k8s" {
 
 Define your manifest.yaml based on the requirements for your deployment.
 
-This manifest acts like a bundle manifest, as it can define options for 
+This manifest acts like a bundle manifest, as it can define options for
 how each application is deployed like number of units, base, and even config
-for that application.  By default, the key value is used as the charm-name as 
+for that application.  By default, the key value is used as the charm-name as
 well as the application name when deployed.
 
 ### A simple cluster
@@ -103,7 +103,7 @@ terraform apply
 
 ### A multi-worker cluster
 
-In this example, we trade out a noble worker for a jammy worker. 
+In this example, we trade out a noble worker for a jammy worker.
 In this case you can see each must specify they are using the `k8s-worker`
 charm. By this mechanism the TF module understands they must still use
 the `k8s-worker` terraform modules.
@@ -143,7 +143,7 @@ k8s:
 
 ### A cloud integrated cluster
 
-In this example, we deploy with a single unit of the k8s charm but with an 
+In this example, we deploy with a single unit of the k8s charm but with an
 addition of an openstack set of integrations. This adds to the model
 * openstack-integrator (trusted)
 * cinder-csi
@@ -159,14 +159,14 @@ openstack-integrator:
   channel: latest/stable
   base: ubuntu@22.04
 cinder-csi: {}
-openstack-cloud-controller: {}  
+openstack-cloud-controller: {}
 ```
 
 To use this cloud-integration, update your `main.tf`
 
 ```hcl
 module "k8s" {
-  source        = "git::https://github.com/canonical/k8s-bundles//terraform?ref=main" 
+  source        = "git::https://github.com/canonical/k8s-bundles//terraform?ref=main"
   model         = {
     name  = "my-canonical-k8s"
     cloud = "prod-example-openstack"
@@ -184,8 +184,8 @@ addition of a ceph cluster integration.  This adds to the model
 * ceph-mon
 * ceph-osd
 
-Each of the ceph applications needs to identify which 
-ceph cluster it operates with using the `cluster-name` field 
+Each of the ceph applications needs to identify which
+ceph cluster it operates with using the `cluster-name` field
 Also, the `csi_integration` field lets us know the csi-integration
 type these apps relate to.
 
@@ -195,7 +195,6 @@ k8s:
   base: ubuntu@22.04
   constraints: arch=amd64 cores=2 mem=8192M root-disk=16384M
   channel: latest/edge
-
 ceph-csi:
   csi_integration: ceph
   cluster-name: main
@@ -227,17 +226,17 @@ to use this, add a `csi_integration` field to your top-level main.tf
 
 ```hcl
 module "k8s" {
-  source        = "git::https://github.com/canonical/k8s-bundles//terraform?ref=main" 
+  source        = "git::https://github.com/canonical/k8s-bundles//terraform?ref=main"
   model         = {
     name  = "my-canonical-k8s"
     cloud = "prod-example-openstack"
   }
-  csi_integration = ["ceph]
+  csi_integration = ["ceph"]
   manifest_yaml = "/path/to/manifest.yaml"
 }
 ```
 
-### A multi csi integrated cluster. 
+### A multi csi integrated cluster.
 
 In this example, we deploy a single unit of the k8s charm, but with two
 additional ceph cluster integrations.  This adds to the model not only
