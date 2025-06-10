@@ -189,7 +189,7 @@ ceph cluster it operates with using the `cluster-name` field
 Also, the `csi_integration` field lets us know the csi-integration
 type these apps relate to.
 
-```hcl
+```yaml
 k8s:
   units: 1
   base: ubuntu@22.04
@@ -248,7 +248,7 @@ But a second cluster of ceph as well:
 * ceph-mon-alt
 * ceph-osd-alt
 
-```hcl
+```yaml
 k8s:
   units: 1
   base: ubuntu@22.04
@@ -287,7 +287,70 @@ ceph-osd-alt:
     osd-journals: 1G,1
 ```
 
+### Controlling k8s api exposure
+
+The juju provider supports [exposure][] of ports the charm has opened
+represented by a `map(string)` where the values are `cidrs`, `endpoints`, and
+`spaces`.
+
+#### Default Behavior
+By default, the `k8s` operator exposes itself via `cidrs = 0.0.0.0/0` which
+represents the same as `juju expose k8s` -- don't enforce any security group
+rules based on the source ip addresses contacting the charm's application.
+
+The default behavior is maintained by not setting the following
+
+```yaml
+k8s:
+  charm: k8s
+  expose: {}
+```
+
+or
+
+```yaml
+k8s:
+  charm: k8s
+  expose: null
+```
+
+or
+
+```yaml
+k8s:
+  charm: k8s
+```
+
+
+#### Exposure
+One can not expose the application by setting `cidrs = null`
+
+```yaml
+k8s:
+  expose:
+    cidrs: null     # Don't expose by cidrs
+```
+
+One can change the exposure to expose by `endpoints` instead:
+
+```yaml
+k8s:
+  expose:
+    cidrs: null
+    endpoints: cluster
+```
+
+Or `spaces`:
+
+```yaml
+k8s:
+  expose:
+    cidrs: null
+    spaces: my-space
+```
+
 
 <!--LINKS -->
 [Juju Model Resource]: https://registry.terraform.io/providers/juju/juju/0.16.0/docs/resources/model
 [private-details]: https://git.launchpad.net/canonical-terraform-modules/tree/services/compute/canonical_k8s_cluster/main.tf#n214
+[exposure]: https://registry.terraform.io/providers/juju/juju/0.16.0/docs/resources/application#nestedblock--expose
