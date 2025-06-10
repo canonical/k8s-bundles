@@ -23,7 +23,7 @@ locals {
           ? null
           : {
             for k, v in obj.expose : k => v
-            if contains(local._allowed_exposed, k) && v != null
+            if contains(local._allowed_exposed, k)
           }
       )
     }
