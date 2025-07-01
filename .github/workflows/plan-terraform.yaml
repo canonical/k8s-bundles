@@ -17,6 +17,9 @@ jobs:
     strategy:
       matrix:
         test:
+        - name: AWS
+          yaml: test/aws.yaml
+          cloud_integration: aws
         - name: Openstack
           yaml: test/openstack.yaml
           cloud_integration: openstack
@@ -37,7 +40,7 @@ jobs:
     - uses: charmed-kubernetes/actions-operator@main
       with:
         provider: lxd
-        channel: latest/stable        
+        channel: latest/stable
     - name: Prepare juju tf provider environment
       run: |
         CONTROLLER=$(juju whoami | yq .Controller)
