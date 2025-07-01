@@ -2,14 +2,14 @@
 # See LICENSE file for licensing details.
 
 locals {
-  _integrator_keys       = keys(module.openstack_integrator_config.config)
-  _cinder_keys           = keys(module.cinder_csi_config.config)
-  _cloud_controller_keys = keys(module.openstack_cloud_controller_config.config)
-  _max_key_count         = max(length(local._integrator_keys), length(local._cinder_keys), length(local._cloud_controller_keys))
+  _integrator_keys       = keys(module.aws_integrator_config.config)
+  _storage_keys          = keys(module.aws_k8s_storage_config.config)
+  _cloud_controller_keys = keys(module.aws_cloud_provider_config.config)
+  _max_key_count         = max(length(local._integrator_keys), length(local._storage_keys), length(local._cloud_controller_keys))
 
-  integrator_config = local._max_key_count == 1 ? module.openstack_integrator_config.config[local._integrator_keys[0]] : null
-  cinder_csi_config = local._max_key_count == 1 ? module.cinder_csi_config.config[local._cinder_keys[0]] : null
-  cloud_controller_config = local._max_key_count == 1 ? module.openstack_cloud_controller_config.config[local._cloud_controller_keys[0]] : null
+  integrator_config = local._max_key_count == 1 ? module.aws_integrator_config.config[local._integrator_keys[0]] : null
+  storage = local._max_key_count == 1 ? module.aws_k8s_storage_config.config[local._storage_keys[0]] : null
+  cloud_controller_config = local._max_key_count == 1 ? module.aws_cloud_provider_config.config[local._cloud_controller_keys[0]] : null
 }
 
 resource "null_resource" "validate_all_apps_unique" {
@@ -18,9 +18,9 @@ resource "null_resource" "validate_all_apps_unique" {
   provisioner "local-exec" {
     command = <<EOT
       >&2 echo "ERROR: Expected exactly 1 entry for each application"
-      >&2 echo "  openstack-integrator: ${local._integrator_keys}"
-      >&2 echo "  cinder-csi: ${local._cinder_keys}"
-      >&2 echo "  openstack-cloud-controller: ${local._cloud_controller_keys}"
+      >&2 echo "  aws-integrator: ${local._integrator_keys}"
+      >&2 echo "  aws-k8s-storage: ${local._storage_keys}"
+      >&2 echo "  aws-cloud-provider: ${local._cloud_controller_keys}"
       exit 1
     EOT
   }
@@ -29,13 +29,13 @@ resource "null_resource" "validate_all_apps_unique" {
 output "debug" {
   value = {
     integrator_config = local.integrator_config
-    cinder_csi_config = local.cinder_csi_config
+    storage_config = local.storage
     cloud_controller_config = local.cloud_controller_config
   }
 }
 
-module "openstack_integrator" {
-  source      = "git::https://github.com/charmed-kubernetes/charm-openstack-integrator//terraform?ref=main"
+module "aws_integrator" {
+  source      = "git::https://github.com/charmed-kubernetes/charm-aws-integrator//terraform?ref=main"
 
   model       = var.model
   app_name    = local.integrator_config.app_name
@@ -49,27 +49,27 @@ module "openstack_integrator" {
   units       = local.integrator_config.units
 }
 
-module "cinder_csi" {
-  source      = "git::https://github.com/canonical/cinder-csi-operator//terraform?ref=main"
+module "aws_k8s_storage" {
+  source      = "git::https://github.com/charmed-kubernetes/aws-k8s-storage//terraform?ref=main"
 
   model       = var.model
-  app_name    = local.cinder_csi_config.app_name
+  app_name    = local.storage.app_name
   base        = coalesce(
-    local.cinder_csi_config.base,
+    local.storage.base,
     local.integrator_config.base,
     var.k8s.base
   )
   channel     = coalesce(
-    local.cinder_csi_config.channel,
+    local.storage.channel,
     local.integrator_config.channel,
     var.k8s.channel
   )
-  config      = coalesce(local.cinder_csi_config.config, {})
-  revision    = local.cinder_csi_config.revision
+  config      = coalesce(local.storage.config, {})
+  revision    = local.storage.revision
 }
 
-module "openstack_cloud_controller" {
-  source      = "git::https://github.com/charmed-kubernetes/openstack-cloud-controller-operator//terraform?ref=main"
+module "aws_cloud_provider" {
+  source      = "git::https://github.com/charmed-kubernetes/charm-aws-cloud-provider//terraform?ref=main"
 
   model       = var.model
   app_name    = local.cloud_controller_config.app_name

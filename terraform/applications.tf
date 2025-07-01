@@ -77,6 +77,21 @@ module "openstack" {
   }
 }
 
+module "aws" {
+  count           = var.cloud_integration == "aws" ? 1 : 0
+  source          = "./aws"
+  model           = resource.juju_model.this.name
+  manifest_yaml   = var.manifest_yaml
+  k8s             = {
+    app_name    = module.k8s.app_name
+    base        = local.k8s_config.base
+    constraints = local.k8s_config.constraints
+    channel     = local.k8s_config.channel
+    provides    = module.k8s.provides
+    requires    = module.k8s.requires
+  }
+}
+
 module "ceph" {
   count         = length([for v in var.csi_integration : v if v == "ceph"])
   source        = "./ceph"
