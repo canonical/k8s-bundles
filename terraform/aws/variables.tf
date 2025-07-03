@@ -22,3 +22,11 @@ variable "k8s" {
     requires    = map(string)
   })
 }
+
+variable "k8s_worker" {
+  description = "K8s worker application object"
+  type = map(object({
+    app_name    = string
+    requires    = map(string)
+  }))
+}
