@@ -4,6 +4,9 @@ k8s:
   constraints: arch=amd64 cores=2 mem=8192M root-disk=16384M
   channel: latest/edge
   config: {}
+  expose:
+    cidrs: "0.0.0.0/0"
+    endpoints: null
 k8s-worker:
   units: 3
   base: ubuntu@24.04
