@@ -37,6 +37,31 @@ resource "juju_integration" "external_cloud_provider" {
   }
 }
 
+resource "juju_integration" "aws_integration_control_plane" {
+  model = var.model
+  application {
+    name      = module.aws_integrator.app_name
+    endpoint  = module.aws_integrator.provides.aws
+  }
+  application {
+    name      = var.k8s.app_name
+    endpoint  = var.k8s.requires.aws
+  }
+}
+
+resource "juju_integration" "aws_integration_worker" {
+  model = var.model
+  for_each = var.k8s_worker
+  application {
+    name      = module.aws_integrator.app_name
+    endpoint  = module.aws_integrator.provides.aws
+  }
+  application {
+    name      = each.value.app_name
+    endpoint  = each.value.requires.aws
+  }
+}
+
 resource "juju_integration" "aws_cloud_provider_kube_control" {
   model = var.model
   application {
