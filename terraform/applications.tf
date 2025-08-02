@@ -90,6 +90,12 @@ module "aws" {
     provides    = module.k8s.provides
     requires    = module.k8s.requires
   }
+  k8s_worker = {
+    for k, m in module.k8s_worker : k => {
+      app_name  = m.app_name
+      requires  = m.requires
+    }
+  }
 }
 
 module "ceph" {
