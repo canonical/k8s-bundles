@@ -11,7 +11,11 @@ k8s-worker:
   channel: 1.33/stable
   config: {}
 openstack-integrator:
-  channel: latest/stable
-  base: ubuntu@22.04
-cinder-csi: {}
-openstack-cloud-controller: {}
+  channel: 1.33/stable
+  base: ubuntu@24.04
+cinder-csi:
+  channel: 1.33/stable
+  base: ubuntu@24.04
+openstack-cloud-controller:
+  channel: 1.33/stable
+  base: ubuntu@24.04
