@@ -8,7 +8,7 @@ k8s:
 ceph-csi:
   csi_integration: ceph
   cluster-name: main
-  channel: latest/edge
+  channel: 1.33/stable
   base: ubuntu@22.04
 ceph-mon:
   csi_integration: ceph
@@ -35,7 +35,7 @@ ceph-csi-alt:
   csi_integration: ceph
   cluster-name: alt
   charm: ceph-csi
-  channel: latest/edge
+  channel: 1.33/stable
   base: ubuntu@22.04
 ceph_mon-alt:
   csi_integration: ceph

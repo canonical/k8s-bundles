@@ -3,19 +3,15 @@ k8s:
   base: ubuntu@24.04
   constraints: arch=amd64 cores=2 mem=8192M root-disk=16384M
   channel: 1.33/stable
-  config: {}
 k8s-worker:
   units: 3
   base: ubuntu@24.04
   constraints: arch=amd64 cores=2 mem=8192M root-disk=16384M
   channel: 1.33/stable
-  config: {}
-openstack-integrator:
+aws-integrator:
   channel: 1.33/stable
   base: ubuntu@24.04
-cinder-csi:
+aws-k8s-storage:
   channel: 1.33/stable
-  base: ubuntu@24.04
-openstack-cloud-controller:
+aws-cloud-provider:
   channel: 1.33/stable
-  base: ubuntu@24.04
