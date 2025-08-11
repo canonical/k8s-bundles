@@ -1,6 +1,6 @@
 module "k8s" {
-  source        = "../terraform"
-  model         = {
+  source = "../terraform"
+  model  = {
     name   = "my-canonical-k8s"
     cloud  = "my-prod-cloud"
     config = {"test": true}
