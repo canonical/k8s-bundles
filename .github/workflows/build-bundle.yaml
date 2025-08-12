@@ -43,7 +43,7 @@ jobs:
       track: ${{ needs.bundle-track.outputs.track }}
       channel: ${{ needs.bundle-track.outputs.track }}/${{matrix.risk}}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Pack Bundle
         id: packed
