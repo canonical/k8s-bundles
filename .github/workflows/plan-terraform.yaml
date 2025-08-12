@@ -21,21 +21,30 @@ jobs:
           yaml: ./manifest-aws.yaml
           cloud_integration: aws
           csi_integration: '[]'
-        - name: Vanilla
-          yaml: ./manifest-vanilla.yaml
+          external_datastore: ''
+        - name: Ceph Multiple Clusters
+          yaml: ./manifest-ceph.yaml
+          csi_integration: '["ceph"]'
+          external_datastore: ''
+        - name: Charmed etcd
+          yaml: ./manifest-charmed-etcd.yaml
           cloud_integration: ''
           csi_integration: '[]'
+          external_datastore: 'charmed-etcd'
         - name: Openstack
           yaml: ./manifest-openstack.yaml
           cloud_integration: openstack
           csi_integration: '[]'
-        - name: Ceph Multiple Clusters
-          yaml: ./manifest-ceph.yaml
-          csi_integration: '["ceph"]'
+        - name: Vanilla
+          yaml: ./manifest-vanilla.yaml
+          cloud_integration: ''
+          csi_integration: '[]'
+          external_datastore: ''
     env:
       TF_VAR_manifest_yaml: ${{ matrix.test.yaml }}
       TF_VAR_cloud_integration: ${{ matrix.test.cloud_integration }}
       TF_VAR_csi_integration: ${{ matrix.test.csi_integration }}
+      TF_VAR_external_datastore: ${{ matrix.test.external_datastore }}
       WORKING_DIR: 'terraform-test'
     steps:
     - uses: actions/checkout@v4

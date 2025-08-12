@@ -1,13 +1,14 @@
 module "k8s" {
-  source        = "../terraform"
-  model         = {
+  source = "../terraform"
+  model = {
     name   = "my-canonical-k8s"
     cloud  = "my-prod-cloud"
-    config = {"test": true}
+    config = { "test" : true }
   }
-  cloud_integration = var.cloud_integration
-  manifest_yaml = var.manifest_yaml
-  csi_integration = var.csi_integration
+  cloud_integration  = var.cloud_integration
+  manifest_yaml      = var.manifest_yaml
+  csi_integration    = var.csi_integration
+  external_datastore = var.external_datastore
 }
 
 variable "cloud_integration" {
@@ -18,6 +19,11 @@ variable "cloud_integration" {
 variable "csi_integration" {
   description = "Selection of a csi integration."
   type        = list(string)
+}
+
+variable "external_datastore" {
+  description = "Selection of an external datastore."
+  type        = string
 }
 
 variable "manifest_yaml" {
