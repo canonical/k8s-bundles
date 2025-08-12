@@ -2,9 +2,9 @@
 # See LICENSE file for licensing details.
 
 locals {
-  _k8s_keys = keys(module.k8s_config.config)
+  _k8s_keys      = keys(module.k8s_config.config)
   _k8s_key_count = length(local._k8s_keys)
-  k8s_config = local._k8s_key_count == 1 ? module.k8s_config.config[local._k8s_keys[0]] : null
+  k8s_config     = local._k8s_key_count == 1 ? module.k8s_config.config[local._k8s_keys[0]] : null
 }
 
 resource "null_resource" "validate_unique_k8s" {
@@ -20,21 +20,22 @@ resource "null_resource" "validate_unique_k8s" {
 
 output "debug" {
   value = {
-    k8s_config = local.k8s_config
-    ceph = [for ceph in module.ceph: ceph.debug]
-    openstack = [for openstack in module.openstack: openstack.debug]
+    k8s_config   = local.k8s_config
+    ceph         = [for ceph in module.ceph : ceph.debug]
+    openstack    = [for openstack in module.openstack : openstack.debug]
+    charmed-etcd = [for charmed-etcd in module.charmed-etcd : charmed-etcd.debug]
   }
 }
 
 module "k8s" {
-  source      = "git::https://github.com/canonical/k8s-operator//charms/worker/k8s/terraform?ref=main"
-  app_name    = local.k8s_config.app_name
-  channel     = local.k8s_config.channel
-  config      = merge(
+  source   = "git::https://github.com/canonical/k8s-operator//charms/worker/k8s/terraform?ref=KU-4013/terraform-values"
+  app_name = local.k8s_config.app_name
+  channel  = local.k8s_config.channel
+  config = merge(
     (
       length(keys(module.k8s_worker_config.config)) > 0 ?
       # if there are workers, control-planes are tainted with NoSchedule
-      {"bootstrap-node-taints": "node-role.kubernetes.io/control-plane:NoSchedule"}:
+      { "bootstrap-node-taints" : "node-role.kubernetes.io/control-plane:NoSchedule" } :
       # if there are no-workers, control-planes cannot be tainted
       {}
     ),
@@ -49,12 +50,12 @@ module "k8s" {
 }
 
 module "k8s_worker" {
-  source      = "git::https://github.com/canonical/k8s-operator//charms/worker/terraform?ref=main"
+  source      = "git::https://github.com/canonical/k8s-operator//charms/worker/terraform?ref=KU-4013/terraform-values"
   for_each    = module.k8s_worker_config.config
   app_name    = each.value.app_name
-  base        = coalesce(each.value.base,        local.k8s_config.base)
+  base        = coalesce(each.value.base, local.k8s_config.base)
   constraints = coalesce(each.value.constraints, local.k8s_config.constraints)
-  channel     = coalesce(each.value.channel,     local.k8s_config.channel)
+  channel     = coalesce(each.value.channel, local.k8s_config.channel)
   config      = each.value.config
   model       = resource.juju_model.this.name
   resources   = each.value.resources
@@ -67,7 +68,7 @@ module "openstack" {
   source        = "./openstack"
   model         = resource.juju_model.this.name
   manifest_yaml = var.manifest_yaml
-  k8s           = {
+  k8s = {
     app_name    = module.k8s.app_name
     base        = local.k8s_config.base
     constraints = local.k8s_config.constraints
@@ -78,11 +79,11 @@ module "openstack" {
 }
 
 module "aws" {
-  count           = var.cloud_integration == "aws" ? 1 : 0
-  source          = "./aws"
-  model           = resource.juju_model.this.name
-  manifest_yaml   = var.manifest_yaml
-  k8s             = {
+  count         = var.cloud_integration == "aws" ? 1 : 0
+  source        = "./aws"
+  model         = resource.juju_model.this.name
+  manifest_yaml = var.manifest_yaml
+  k8s = {
     app_name    = module.k8s.app_name
     base        = local.k8s_config.base
     constraints = local.k8s_config.constraints
@@ -92,8 +93,8 @@ module "aws" {
   }
   k8s_worker = {
     for k, m in module.k8s_worker : k => {
-      app_name  = m.app_name
-      requires  = m.requires
+      app_name = m.app_name
+      requires = m.requires
     }
   }
 }
@@ -103,7 +104,7 @@ module "ceph" {
   source        = "./ceph"
   model         = resource.juju_model.this.name
   manifest_yaml = var.manifest_yaml
-  k8s           = {
+  k8s = {
     app_name    = module.k8s.app_name
     base        = local.k8s_config.base
     constraints = local.k8s_config.constraints
@@ -111,4 +112,20 @@ module "ceph" {
     provides    = module.k8s.provides
     requires    = module.k8s.requires
   }
+}
+
+module "charmed-etcd" {
+  count         = var.external_datastore == "charmed-etcd" ? 1 : 0
+  source        = "./charmed-etcd"
+  model         = resource.juju_model.this.name
+  manifest_yaml = var.manifest_yaml
+  k8s = {
+    app_name    = module.k8s.app_name
+    base        = local.k8s_config.base
+    constraints = local.k8s_config.constraints
+    channel     = local.k8s_config.channel
+    provides    = module.k8s.provides
+    requires    = module.k8s.requires
+  }
+
 }
