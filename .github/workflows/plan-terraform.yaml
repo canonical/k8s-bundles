@@ -62,7 +62,7 @@ jobs:
           juju show-controller $(echo $CONTROLLER|tr -d '"') | yq '.[$CONTROLLER]'.details.\"ca-cert\"|tr -d '"'
           echo EOF
         } >> "$GITHUB_ENV"
-    - uses: hashicorp/setup-terraform@v3
+    - uses: hashicorp/setup-terraform@v4
     - run: terraform init
       working-directory: ${{env.WORKING_DIR}}
     - run: terraform plan -out=tfplan
