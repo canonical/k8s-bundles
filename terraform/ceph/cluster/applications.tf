@@ -22,7 +22,7 @@ resource "null_resource" "validate_unique_k8s" {
 
 
 module "ceph_mon" {
-  source      = "git::https://github.com/canonical/ceph-charms//ceph-mon/terraform?ref=main"
+  source      = "git::https://github.com/canonical/ceph-charms//ceph-mon/terraform?ref=stable/squid-jammy"
   model       = var.model
   app_name    = local.mon_config.app_name
   base        = coalesce(local.mon_config.base, var.k8s.base)
@@ -36,7 +36,7 @@ module "ceph_mon" {
 }
 
 module "ceph_osd" {
-  source = "git::https://github.com/canonical/ceph-charms//ceph-osd/terraform?ref=main"
+  source = "git::https://github.com/canonical/ceph-charms//ceph-osd/terraform?ref=stable/squid-jammy"
   for_each    = var.osds
 
   model       = var.model
