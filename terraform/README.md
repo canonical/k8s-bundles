@@ -16,11 +16,13 @@ charm configuration.
 * [k8s-worker](https://charmhub.io/k8s-worker)
 
 ## Inputs
-| Name                | Type   | Description                                           | Required |
-| ---                 | ---    | ---                                                   | ---   |
-| `manifest_yaml`     | string | Absolute path to the manifest yaml for the deployment | True  |
-| `model`             | object | Juju model attributes                                 | True  |
-| `cloud_integration` | bool   | Enablement of a cloud integration                     | False |
+| Name                  | Type         | Description                                           | Required |
+| ---                   | ---          | ---                                                   | ---      |
+| `manifest_yaml`       | string       | Absolute path to the manifest yaml for the deployment | True     |
+| `model`               | object       | Juju model attributes                                 | True     |
+| `cloud_integration`   | string       | Selection of a cloud integration                      | False    |
+| `csi_integration`     | list(string) | Selection of a csi integration                        | False    |
+| `external_datastore`  | string       | Selection of an external datastore                    | False    |
 
 ### Model Input:
 Juju Model resource definition borrows its schema from [Juju Model Resource].
