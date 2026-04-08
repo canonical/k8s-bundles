@@ -43,7 +43,7 @@ jobs:
       track: ${{ needs.bundle-track.outputs.track }}
       channel: ${{ needs.bundle-track.outputs.track }}/${{matrix.risk}}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
       - name: Pack Bundle
         id: packed
@@ -55,7 +55,7 @@ jobs:
       
       - name: Upload bundle to ${{env.channel}}
         if: github.event_name == 'push' && steps.packed.outcome == 'success'
-        uses: canonical/charming-actions/upload-bundle@2.6.3
+        uses: canonical/charming-actions/upload-bundle@934193396735701141a1decc3613818e412da606 # 2.6.3
         with:
           bundle-path: ./main
           channel: ${{env.channel}}
