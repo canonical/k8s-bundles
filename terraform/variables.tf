@@ -13,7 +13,7 @@ variable "cloud_integration" {
   nullable    = false
 
   validation {
-    condition = can(regex("^(|openstack|aws)$", var.cloud_integration))
+    condition     = can(regex("^(|openstack|aws)$", var.cloud_integration))
     error_message = "Cloud integration unsupported. Try: '', 'aws', or 'openstack'"
   }
 }
@@ -32,6 +32,19 @@ variable "csi_integration" {
   }
 }
 
+variable "external_datastore" {
+  description = "Selection of a datastore"
+  type        = string
+  default     = ""
+  nullable    = false
+
+  validation {
+    condition     = can(regex("^(|charmed-etcd)$", var.external_datastore))
+    error_message = "External datastore unsupported. Must be either '' or 'charmed-etcd'"
+  }
+
+}
+
 variable "model" {
   description = <<EOT
 Juju Model resource definition.
@@ -47,19 +60,19 @@ Schema represented by the juju model resource:
 https://registry.terraform.io/providers/juju/juju/0.16.0/docs/resources/model
 EOT
 
-  type        = object({
-    name         = string
-    cloud        = string
-    region       = optional(string)
-    config       = optional(map(any))
-    constraints  = optional(string)
-    credential   = optional(string)
+  type = object({
+    name        = string
+    cloud       = string
+    region      = optional(string)
+    config      = optional(map(any))
+    constraints = optional(string)
+    credential  = optional(string)
   })
 
   validation {
     condition = (
       var.model.config == null || alltrue([
-        for k, v in var.model.config != null ? var.model.config : {}:
+        for k, v in var.model.config != null ? var.model.config : {} :
         v == null || can(tostring(v)) || can(tonumber(v)) || can(tobool(v))
       ])
     )
