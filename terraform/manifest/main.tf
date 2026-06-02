@@ -13,8 +13,28 @@ locals {
     units       = null
     storage     = null
   }
+
+  _allowed_exposed = ["cidrs", "endpoints", "spaces"]
+  exposed = {
+    for app, obj in local.full_map : app => {
+      expose = (
+        # if the expose data is not present, return null
+        !contains(keys(obj), "expose") || obj.expose == null
+          ? null
+          : {
+            for k, v in obj.expose : k => v
+            if contains(local._allowed_exposed, k)
+          }
+      )
+    }
+  }
   yaml_data = {
-    for app, obj in local.full_map : app => merge({app_name = app}, local.default_config, obj)
+    for app, obj in local.full_map : app => merge(
+      {app_name = app},
+      local.default_config,
+      obj,
+      local.exposed[app]
+    )
     if (
       obj != null &&
       (app == var.charm || lookup(obj, "charm", null) == var.charm) &&

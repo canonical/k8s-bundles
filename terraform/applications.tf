@@ -46,6 +46,7 @@ module "k8s" {
   revision    = local.k8s_config.revision
   base        = local.k8s_config.base
   units       = local.k8s_config.units
+  expose      = local.k8s_config.expose
 }
 
 module "k8s_worker" {
