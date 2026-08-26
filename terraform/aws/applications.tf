@@ -35,7 +35,7 @@ output "debug" {
 }
 
 module "aws_integrator" {
-  source      = "git::https://github.com/charmed-kubernetes/charm-aws-integrator//terraform?ref=main"
+  source      = "git::https://github.com/charmed-kubernetes/charm-aws-integrator//terraform?ref=release_1.35"
 
   model       = var.model
   app_name    = local.integrator_config.app_name
@@ -50,7 +50,7 @@ module "aws_integrator" {
 }
 
 module "aws_k8s_storage" {
-  source      = "git::https://github.com/charmed-kubernetes/aws-k8s-storage//terraform?ref=main"
+  source      = "git::https://github.com/charmed-kubernetes/aws-k8s-storage//terraform?ref=release_1.35"
 
   model       = var.model
   app_name    = local.storage.app_name
@@ -69,7 +69,7 @@ module "aws_k8s_storage" {
 }
 
 module "aws_cloud_provider" {
-  source      = "git::https://github.com/charmed-kubernetes/charm-aws-cloud-provider//terraform?ref=main"
+  source      = "git::https://github.com/charmed-kubernetes/charm-aws-cloud-provider//terraform?ref=release_1.35"
 
   model       = var.model
   app_name    = local.cloud_controller_config.app_name
