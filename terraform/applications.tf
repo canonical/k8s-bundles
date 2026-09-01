@@ -63,17 +63,24 @@ module "k8s_worker" {
 }
 
 module "openstack" {
-  count         = var.cloud_integration == "openstack" ? 1 : 0
-  source        = "./openstack"
-  model         = resource.juju_model.this.name
-  manifest_yaml = var.manifest_yaml
-  k8s           = {
+  count           = var.cloud_integration == "openstack" ? 1 : 0
+  source          = "./openstack"
+  model           = resource.juju_model.this.name
+  manifest_yaml   = var.manifest_yaml
+  csi_integration = var.csi_integration
+  k8s             = {
     app_name    = module.k8s.app_name
     base        = local.k8s_config.base
     constraints = local.k8s_config.constraints
     channel     = local.k8s_config.channel
     provides    = module.k8s.provides
     requires    = module.k8s.requires
+  }
+  k8s_worker = {
+    for k, m in module.k8s_worker : k => {
+      app_name = m.app_name
+      requires = m.requires
+    }
   }
 }
 

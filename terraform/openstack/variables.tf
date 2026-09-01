@@ -22,3 +22,18 @@ variable "k8s" {
     requires    = map(string)
   })
 }
+
+variable "k8s_worker" {
+  description = "K8s worker application objects."
+  default     = {}
+  type = map(object({
+    app_name = string
+    requires = map(string)
+  }))
+}
+
+variable "csi_integration" {
+  description = "List of CSI integrations to enable."
+  type        = list(string)
+  default     = []
+}
