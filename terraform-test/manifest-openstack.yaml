@@ -15,3 +15,5 @@ openstack-integrator:
   base: ubuntu@22.04
 cinder-csi: {}
 openstack-cloud-controller: {}
+csi-driver-nfs: {}
+manila-csi: {}

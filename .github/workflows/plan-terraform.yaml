@@ -32,6 +32,10 @@ jobs:
         - name: Ceph Multiple Clusters
           yaml: ./manifest-ceph.yaml
           csi_integration: '["ceph"]'
+        - name: Openstack Manila
+          yaml: ./manifest-openstack.yaml
+          cloud_integration: openstack
+          csi_integration: '["manila"]'
     env:
       TF_VAR_manifest_yaml: ${{ matrix.test.yaml }}
       TF_VAR_cloud_integration: ${{ matrix.test.cloud_integration }}

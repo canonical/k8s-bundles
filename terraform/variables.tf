@@ -26,9 +26,14 @@ variable "csi_integration" {
 
   validation {
     condition = alltrue([
-      for v in var.csi_integration : can(regex("^(|ceph)$", v))
+      for v in var.csi_integration : can(regex("^(|ceph|manila)$", v))
     ])
-    error_message = "Each item in 'csi_integration' must be either '' or 'ceph'."
+    error_message = "Each item in 'csi_integration' must be one of: '', 'ceph', 'manila'."
+  }
+
+  validation {
+    condition     = !contains(var.csi_integration, "manila") || var.cloud_integration == "openstack"
+    error_message = "csi_integration 'manila' requires cloud_integration to be 'openstack'."
   }
 }
 

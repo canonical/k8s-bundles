@@ -18,3 +18,15 @@ module "openstack_cloud_controller_config" {
   manifest = var.manifest_yaml
   charm = "openstack-cloud-controller"
 }
+
+module "csi_driver_nfs_config" {
+  source = "../manifest/"
+  manifest = var.manifest_yaml
+  charm = "csi-driver-nfs"
+}
+
+module "manila_csi_config" {
+  source = "../manifest/"
+  manifest = var.manifest_yaml
+  charm = "manila-csi"
+}
