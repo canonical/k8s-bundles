@@ -41,7 +41,7 @@ module "k8s" {
     local.k8s_config.config,
   )
   constraints = local.k8s_config.constraints
-  model       = resource.juju_model.this.name
+  model_uuid  = resource.juju_model.this.uuid
   resources   = local.k8s_config.resources
   revision    = local.k8s_config.revision
   base        = local.k8s_config.base
@@ -56,7 +56,7 @@ module "k8s_worker" {
   constraints = coalesce(each.value.constraints, local.k8s_config.constraints)
   channel     = coalesce(each.value.channel,     local.k8s_config.channel)
   config      = each.value.config
-  model       = resource.juju_model.this.name
+  model_uuid  = resource.juju_model.this.uuid
   resources   = each.value.resources
   revision    = each.value.revision
   units       = each.value.units
@@ -65,7 +65,7 @@ module "k8s_worker" {
 module "openstack" {
   count         = var.cloud_integration == "openstack" ? 1 : 0
   source        = "./openstack"
-  model         = resource.juju_model.this.name
+  model_uuid    = resource.juju_model.this.uuid
   manifest_yaml = var.manifest_yaml
   k8s           = {
     app_name    = module.k8s.app_name
@@ -80,7 +80,7 @@ module "openstack" {
 module "aws" {
   count           = var.cloud_integration == "aws" ? 1 : 0
   source          = "./aws"
-  model           = resource.juju_model.this.name
+  model_uuid      = resource.juju_model.this.uuid
   manifest_yaml   = var.manifest_yaml
   k8s             = {
     app_name    = module.k8s.app_name
@@ -101,7 +101,7 @@ module "aws" {
 module "ceph" {
   count         = length([for v in var.csi_integration : v if v == "ceph"])
   source        = "./ceph"
-  model         = resource.juju_model.this.name
+  model_uuid    = resource.juju_model.this.uuid
   manifest_yaml = var.manifest_yaml
   k8s           = {
     app_name    = module.k8s.app_name

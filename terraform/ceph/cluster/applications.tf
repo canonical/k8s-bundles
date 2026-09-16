@@ -22,8 +22,8 @@ resource "null_resource" "validate_unique_k8s" {
 
 
 module "ceph_mon" {
-  source      = "git::https://github.com/canonical/ceph-charms//ceph-mon/terraform?ref=stable/squid-jammy"
-  model       = var.model
+  source      = "git::https://github.com/canonical/ceph-charms//ceph-mon/terraform?ref=stable/squid"
+  model_uuid  = var.model_uuid
   app_name    = local.mon_config.app_name
   base        = coalesce(local.mon_config.base, var.k8s.base)
   constraints = coalesce(local.mon_config.constraints, var.k8s.constraints)
@@ -36,25 +36,25 @@ module "ceph_mon" {
 }
 
 module "ceph_osd" {
-  source = "git::https://github.com/canonical/ceph-charms//ceph-osd/terraform?ref=stable/squid-jammy"
+  source = "git::https://github.com/canonical/ceph-charms//ceph-osd/terraform?ref=stable/squid"
   for_each    = var.osds
 
-  model       = var.model
+  model_uuid  = var.model_uuid
   app_name    = each.value.app_name
   base        = coalesce(each.value.base, var.k8s.base)
   constraints = coalesce(each.value.constraints, var.k8s.constraints)
   channel     = coalesce(each.value.channel, var.k8s.channel)
 
-  config    = coalesce(each.value.config, {})
-  resources = each.value.resources
-  storage   = coalesce(each.value.storage, {})
-  revision  = each.value.revision
-  units     = each.value.units
+  config             = coalesce(each.value.config, {})
+  resources          = each.value.resources
+  storage_directives = coalesce(each.value.storage, {})
+  revision           = each.value.revision
+  units              = each.value.units
 }
 
 module "ceph_csi" {
-  source = "git::https://github.com/charmed-kubernetes/ceph-csi-operator//terraform?ref=release_1.35"
-  model    = var.model
+  source = "git::https://github.com/charmed-kubernetes/ceph-csi-operator//terraform?ref=release_1.36"
+  model_uuid = var.model_uuid
   app_name = local.csi_config.app_name
   base     = local.csi_config.base
   constraints = local.csi_config.constraints

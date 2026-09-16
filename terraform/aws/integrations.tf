@@ -2,7 +2,7 @@
 # See LICENSE file for licensing details.
 
 resource "juju_integration" "aws_storage_client" {
-  model = var.model
+  model_uuid = var.model_uuid
   application {
     name      = module.aws_integrator.app_name
     endpoint  = module.aws_integrator.provides.aws
@@ -14,7 +14,7 @@ resource "juju_integration" "aws_storage_client" {
 }
 
 resource "juju_integration" "cloud_controller_aws_integrator" {
-  model = var.model
+  model_uuid = var.model_uuid
   application {
     name      = module.aws_integrator.app_name
     endpoint  = module.aws_integrator.provides.aws
@@ -26,7 +26,7 @@ resource "juju_integration" "cloud_controller_aws_integrator" {
 }
 
 resource "juju_integration" "external_cloud_provider" {
-  model = var.model
+  model_uuid = var.model_uuid
   application {
     name      = var.k8s.app_name
     endpoint  = var.k8s.requires.external_cloud_provider
@@ -38,7 +38,7 @@ resource "juju_integration" "external_cloud_provider" {
 }
 
 resource "juju_integration" "aws_integration_control_plane" {
-  model = var.model
+  model_uuid = var.model_uuid
   application {
     name      = module.aws_integrator.app_name
     endpoint  = module.aws_integrator.provides.aws
@@ -50,7 +50,7 @@ resource "juju_integration" "aws_integration_control_plane" {
 }
 
 resource "juju_integration" "aws_integration_worker" {
-  model = var.model
+  model_uuid = var.model_uuid
   for_each = var.k8s_worker
   application {
     name      = module.aws_integrator.app_name
@@ -63,7 +63,7 @@ resource "juju_integration" "aws_integration_worker" {
 }
 
 resource "juju_integration" "aws_cloud_provider_kube_control" {
-  model = var.model
+  model_uuid = var.model_uuid
   application {
     name      = var.k8s.app_name
     endpoint  = var.k8s.provides.kube_control
@@ -75,7 +75,7 @@ resource "juju_integration" "aws_cloud_provider_kube_control" {
 }
 
 resource "juju_integration" "aws_k8s_storage_kube_control" {
-  model = var.model
+  model_uuid = var.model_uuid
   application {
     name      = var.k8s.app_name
     endpoint  = var.k8s.provides.kube_control
