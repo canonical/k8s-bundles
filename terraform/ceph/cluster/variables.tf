@@ -21,8 +21,8 @@ variable "csis" {
   type = map
 }
 
-variable "model" {
-  description = "Name of the Juju model to deploy to."
+variable "model_uuid" {
+  description = "UUID of the Juju model to deploy to."
   type        = string
 }
 

@@ -1,6 +1,6 @@
 k8s:
   units: 1
-  base: ubuntu@22.04
+  base: ubuntu@24.04
   constraints: arch=amd64 cores=2 mem=8192M root-disk=16384M
   channel: latest/edge
   config: {}
