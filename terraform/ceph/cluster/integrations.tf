@@ -2,9 +2,9 @@
 # See LICENSE file for licensing details.
 
 resource "juju_integration" "ceph_client" {
-  model = var.model
+  model_uuid = var.model_uuid
   application {
-    name     = module.ceph_mon.app_name
+    name     = module.ceph_mon.application.name
     endpoint = module.ceph_mon.provides.client
   }
   application {
@@ -14,20 +14,20 @@ resource "juju_integration" "ceph_client" {
 }
 
 resource "juju_integration" "ceph_mon" {
-  model = var.model
+  model_uuid = var.model_uuid
   for_each = module.ceph_osd
   application {
-    name     = module.ceph_mon.app_name
+    name     = module.ceph_mon.application.name
     endpoint = module.ceph_mon.provides.osd
   }
   application {
-    name     = each.value.app_name
+    name     = each.value.application.name
     endpoint = each.value.requires.mon
   }
 }
 
 resource "juju_integration" "ceph_k8s_info" {
-  model = var.model
+  model_uuid = var.model_uuid
   application {
     name     = var.k8s.app_name
     endpoint = var.k8s.provides.ceph_k8s_info
