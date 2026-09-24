@@ -2,7 +2,7 @@
 # See LICENSE file for licensing details.
 
 resource "juju_integration" "cinder_openstack_client" {
-  model = var.model
+  model_uuid = var.model_uuid
   application {
     name      = module.openstack_integrator.app_name
     endpoint  = module.openstack_integrator.provides.clients
@@ -14,7 +14,7 @@ resource "juju_integration" "cinder_openstack_client" {
 }
 
 resource "juju_integration" "cloud_controller_openstack_client" {
-  model = var.model
+  model_uuid = var.model_uuid
   application {
     name      = module.openstack_integrator.app_name
     endpoint  = module.openstack_integrator.provides.clients
@@ -26,7 +26,7 @@ resource "juju_integration" "cloud_controller_openstack_client" {
 }
 
 resource "juju_integration" "external_cloud_provider" {
-  model = var.model
+  model_uuid = var.model_uuid
   application {
     name      = var.k8s.app_name
     endpoint  = var.k8s.requires.external_cloud_provider
@@ -38,7 +38,7 @@ resource "juju_integration" "external_cloud_provider" {
 }
 
 resource "juju_integration" "cloud_controller_kube_control" {
-  model = var.model
+  model_uuid = var.model_uuid
   application {
     name      = var.k8s.app_name
     endpoint  = var.k8s.provides.kube_control
@@ -50,7 +50,7 @@ resource "juju_integration" "cloud_controller_kube_control" {
 }
 
 resource "juju_integration" "cinder_csi_kube_control" {
-  model = var.model
+  model_uuid = var.model_uuid
   application {
     name      = var.k8s.app_name
     endpoint  = var.k8s.provides.kube_control
@@ -62,7 +62,7 @@ resource "juju_integration" "cinder_csi_kube_control" {
 }
 
 resource "juju_integration" "openstack_external_load_balancer" {
-  model = var.model
+  model_uuid = var.model_uuid
   application {
     name      = var.k8s.app_name
     endpoint  = var.k8s.requires.external_load_balancer
