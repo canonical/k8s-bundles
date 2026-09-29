@@ -35,9 +35,9 @@ output "debug" {
 }
 
 module "openstack_integrator" {
-  source      = "git::https://github.com/charmed-kubernetes/charm-openstack-integrator//terraform?ref=release_1.35"
+  source      = "git::https://github.com/charmed-kubernetes/charm-openstack-integrator//terraform?ref=release_1.36"
 
-  model       = var.model
+  model_uuid  = var.model_uuid
   app_name    = local.integrator_config.app_name
   base        = coalesce(local.integrator_config.base, var.k8s.base)
   constraints = coalesce(local.integrator_config.constraints, var.k8s.constraints)
@@ -50,9 +50,9 @@ module "openstack_integrator" {
 }
 
 module "cinder_csi" {
-  source      = "git::https://github.com/charmed-kubernetes/cinder-csi-operator//terraform?ref=release_1.35"
+  source      = "git::https://github.com/charmed-kubernetes/cinder-csi-operator//terraform?ref=release_1.36"
 
-  model       = var.model
+  model_uuid  = var.model_uuid
   app_name    = local.cinder_csi_config.app_name
   base        = coalesce(
     local.cinder_csi_config.base,
@@ -69,9 +69,9 @@ module "cinder_csi" {
 }
 
 module "openstack_cloud_controller" {
-  source      = "git::https://github.com/charmed-kubernetes/openstack-cloud-controller-operator//terraform?ref=release_1.35"
+  source      = "git::https://github.com/charmed-kubernetes/openstack-cloud-controller-operator//terraform?ref=release_1.36"
 
-  model       = var.model
+  model_uuid  = var.model_uuid
   app_name    = local.cloud_controller_config.app_name
   base        = coalesce(
     local.cloud_controller_config.base,

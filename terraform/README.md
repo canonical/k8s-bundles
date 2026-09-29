@@ -48,7 +48,7 @@ If the model exists already, it must be imported into the model state to
 prevent the model from being destroyed and recreated.
 
 ```sh
-terraform import module.k8s.juju_model.this "<name of the model>"
+terraform import module.k8s.juju_model.this "<UUID of the model>"
 ```
 ---
 
@@ -290,5 +290,5 @@ ceph-osd-alt:
 
 
 <!--LINKS -->
-[Juju Model Resource]: https://registry.terraform.io/providers/juju/juju/0.16.0/docs/resources/model
+[Juju Model Resource]: https://registry.terraform.io/providers/juju/juju/latest/docs/resources/model
 [private-details]: https://git.launchpad.net/canonical-terraform-modules/tree/services/compute/canonical_k8s_cluster/main.tf#n214

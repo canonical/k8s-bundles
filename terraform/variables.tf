@@ -44,7 +44,7 @@ Schema represented by the juju model resource:
   - constraints: Constraints string (optional)
   - credential: Credential name (optional)
 
-https://registry.terraform.io/providers/juju/juju/0.16.0/docs/resources/model
+https://registry.terraform.io/providers/juju/juju/latest/docs/resources/model
 EOT
 
   type        = object({

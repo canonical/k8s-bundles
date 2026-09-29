@@ -19,7 +19,7 @@ module "ceph-cluster" {
   mons = each.value.mons
   osds = each.value.osds
   csis = each.value.csis
-  model = var.model
+  model_uuid = var.model_uuid
   k8s = var.k8s
 }
 

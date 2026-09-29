@@ -35,9 +35,9 @@ output "debug" {
 }
 
 module "aws_integrator" {
-  source      = "git::https://github.com/charmed-kubernetes/charm-aws-integrator//terraform?ref=release_1.35"
+  source      = "git::https://github.com/charmed-kubernetes/charm-aws-integrator//terraform?ref=release_1.36"
 
-  model       = var.model
+  model_uuid  = var.model_uuid
   app_name    = local.integrator_config.app_name
   base        = coalesce(local.integrator_config.base, var.k8s.base)
   constraints = coalesce(local.integrator_config.constraints, var.k8s.constraints)
@@ -50,9 +50,9 @@ module "aws_integrator" {
 }
 
 module "aws_k8s_storage" {
-  source      = "git::https://github.com/charmed-kubernetes/aws-k8s-storage//terraform?ref=release_1.35"
+  source      = "git::https://github.com/charmed-kubernetes/aws-k8s-storage//terraform?ref=release_1.36"
 
-  model       = var.model
+  model_uuid  = var.model_uuid
   app_name    = local.storage.app_name
   base        = coalesce(
     local.storage.base,
@@ -69,9 +69,9 @@ module "aws_k8s_storage" {
 }
 
 module "aws_cloud_provider" {
-  source      = "git::https://github.com/charmed-kubernetes/charm-aws-cloud-provider//terraform?ref=release_1.35"
+  source      = "git::https://github.com/charmed-kubernetes/charm-aws-cloud-provider//terraform?ref=release_1.36"
 
-  model       = var.model
+  model_uuid  = var.model_uuid
   app_name    = local.cloud_controller_config.app_name
   base        = coalesce(
     local.cloud_controller_config.base,
