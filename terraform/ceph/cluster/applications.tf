@@ -54,7 +54,7 @@ module "ceph_osd" {
 
 module "ceph_csi" {
   source = "git::https://github.com/charmed-kubernetes/ceph-csi-operator//terraform?ref=main"
-  model    = var.model
+  model_uuid    = var.model_uuid
   app_name = local.csi_config.app_name
   base     = local.csi_config.base
   constraints = local.csi_config.constraints
