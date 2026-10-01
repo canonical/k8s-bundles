@@ -57,7 +57,7 @@ module "k8s_worker" {
   channel     = module.k8s_worker_config.config.channel
   config      = module.k8s_worker_config.config.config
   constraints = module.k8s_worker_config.config.constraints
-  model  = var.model
+  model_uuid  = var.model_uuid
   resources   = module.k8s_worker_config.config.resources
   revision    = module.k8s_worker_config.config.revision
   base        = module.k8s_worker_config.config.base

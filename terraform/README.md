@@ -48,7 +48,7 @@ If the model exists already, it must be imported into the model state to
 prevent the model from being destroyed and recreated.
 
 ```sh
-terraform import module.k8s.juju_model.this "<name of the model>"
+terraform import module.k8s.juju_model.this "<UUID of the model>"
 ```
 ---
 
